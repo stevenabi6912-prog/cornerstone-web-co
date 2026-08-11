@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Cornerstone Web Co. — Custom Websites for Jackson &amp; Chelsea, Michigan</title>
+<meta name="description" content="Custom-built websites for local businesses in Jackson and Chelsea, Michigan. Built from scratch, launched for you, and looked after every month. Free mockup before you pay anything.">
+
+<link rel="canonical" href="https://cornerstonewebco.com/">
+<meta name="theme-color" content="#101211">
+
+<!-- Open Graph / social. NOTE: og:image must be a raster file (PNG/JPG, 1200x630).
+     Export one from the hero photo once real photography is in place, save it to
+     assets/img/og-cover.jpg, and this tag is ready to go. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cornerstone Web Co. — Custom Websites for Jackson &amp; Chelsea, Michigan">
+<meta property="og:description" content="Custom-built websites for local businesses who don't have the time to do it themselves. Free mockup, no obligation.">
+<meta property="og:url" content="https://cornerstonewebco.com/">
+<meta property="og:image" content="https://cornerstonewebco.com/assets/img/og-cover.jpg">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/style.css">
+
+<!--
+  Progressive enhancement: this class is what turns ON the "hidden, then reveal"
+  scroll animation in CSS. Without JS the class never lands, elements stay
+  visible, and the page reads perfectly as plain HTML. Set inline (not in
+  main.js) so it applies before first paint and there is no flash.
+-->
+<script>document.documentElement.classList.add('js');</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Cornerstone Web Co., LLC",
+  "description": "Custom website design and development for local small businesses in Jackson and Chelsea, Michigan.",
+  "url": "https://cornerstonewebco.com/",
+  "founder": { "@type": "Person", "name": "Steven Wireman" },
+  "areaServed": [
+    { "@type": "City", "name": "Jackson", "addressRegion": "MI" },
+    { "@type": "City", "name": "Chelsea", "addressRegion": "MI" }
+  ],
+  "address": { "@type": "PostalAddress", "addressRegion": "MI", "addressCountry": "US" },
+  "priceRange": "$650-$2200+"
+}
+</script>
+</head>
+
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header" id="siteHeader">
+  <div class="shell site-header__inner">
+
+    <a class="wordmark" href="#top" aria-label="Cornerstone Web Co., home">
+      <svg class="wordmark__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M2 22V7.5L12 2l10 5.5V22H2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M2 22V14h8v8" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="wordmark__text">
+        <span class="wordmark__name">Cornerstone</span>
+        <span class="wordmark__suffix">Web&nbsp;Co.</span>
+      </span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="Main">
+      <ul class="nav__list">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a class="nav__cta" href="#contact">Get a free mockup</a></li>
+      </ul>
+    </nav>
+
+    <button class="nav-toggle" id="navToggle" type="button"
+            aria-expanded="false" aria-controls="nav" aria-label="Open menu">
+      <span class="nav-toggle__bars" aria-hidden="true"><i></i><i></i></span>
+    </button>
+
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero" id="top">
+
+    <div class="hero__media">
+      <!--
+        Hero photograph. Deliberately a trade at work rather than a laptop on a
+        desk — the customer here is the shop, not another agency.
+        To swap: keep the 16:10 ratio (1800x1125) and the file name, and the
+        layout, parallax, and scrim all continue to work untouched.
+      -->
+      <img class="hero__img" id="heroImg"
+           src="assets/img/hero.jpg"
+           alt="A welder in a protective mask joining steel in a fabrication shop, sparks scattering across the frame"
+           width="1800" height="1125" fetchpriority="high" decoding="async">
+      <div class="hero__scrim" aria-hidden="true"></div>
+    </div>
+
+    <div class="shell hero__body">
+      <p class="eyebrow eyebrow--light">Jackson &amp; Chelsea, Michigan</p>
+
+      <h1 class="hero__title">
+        <span class="reveal-line"><span>Your business is already good.</span></span>
+        <span class="reveal-line"><span>Your website should say so.</span></span>
+      </h1>
+
+      <p class="hero__sub">
+        Custom-built websites for local businesses who don't have the time —
+        or the patience — to do it themselves.
+      </p>
+
+      <div class="hero__actions">
+        <a class="btn btn--accent" href="#contact">Get a free mockup</a>
+        <a class="btn btn--ghost" href="#work">See the work</a>
+      </div>
+
+      <p class="hero__note">No cost, no obligation. You see the real thing before you pay for anything.</p>
+    </div>
+
+    <a class="hero__scroll" href="#services" aria-label="Scroll to services">
+      <span aria-hidden="true"></span>
+    </a>
+  </section>
+
+
+  <!-- ============================================================
+       SERVICES
+       ============================================================ -->
+  <section class="section section--paper" id="services">
+    <div class="shell">
+
+      <header class="section__head reveal">
+        <p class="eyebrow">What you get</p>
+        <h2 class="section__title">Three things, done properly.</h2>
+      </header>
+
+      <ol class="services">
+
+        <li class="service reveal">
+          <p class="service__num">01</p>
+          <h3 class="service__title">Build</h3>
+          <p class="service__copy">
+            Designed and built from scratch. No recycled templates, no cookie-cutter
+            themes. Your site gets planned around how your business actually works,
+            then built to fit it.
+          </p>
+        </li>
+
+        <li class="service reveal">
+          <p class="service__num">02</p>
+          <h3 class="service__title">Launch</h3>
+          <p class="service__copy">
+            Hosting, domain setup, and a smooth go-live, all handled. You never touch
+            a DNS record or a registrar login. One day it isn't live. The next day it is.
+          </p>
+        </li>
+
+        <li class="service reveal">
+          <p class="service__num">03</p>
+          <h3 class="service__title">Support</h3>
+          <p class="service__copy">
+            Every site includes the care plan — updates, monitoring, and small edits
+            whenever you need them. You email or call me directly. There is no ticket queue.
+          </p>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       WORK — curated, not exhaustive. Three projects only, on purpose.
+       ============================================================ -->
+  <section class="section section--ink" id="work">
+    <div class="shell">
+
+      <header class="section__head section__head--split reveal">
+        <div>
+          <p class="eyebrow eyebrow--light">Selected work</p>
+          <h2 class="section__title">A few things worth showing.</h2>
+        </div>
+        <p class="section__lede">
+          Not everything I've built — just the three that best show how I work.
+        </p>
+      </header>
+
+      <div class="work">
+
+        <article class="work__item reveal">
+          <a class="work__link" href="https://fbcchelsea.org" target="_blank" rel="noopener noreferrer">
+            <figure class="work__figure work__figure--framed">
+              <!-- Browser chrome. Decorative framing only — the address is
+                   repeated as real text in .work__url below, so nothing here
+                   is information a screen reader needs. -->
+              <span class="chrome" aria-hidden="true">
+                <span class="chrome__dots"><i></i><i></i><i></i></span>
+                <span class="chrome__url">fbcchelsea.org</span>
+              </span>
+              <!-- Real screenshot of the live site, captured at 1600x518 so the
+                   frame ends exactly at the bottom of their hero. -->
+              <img src="assets/img/work-faith-baptist.jpg"
+                   alt="The Faith Baptist Church homepage: the congregation singing behind the headline &quot;Rooted in the Word, growing in grace&quot; with buttons to join in person or online"
+                   width="1600" height="508" loading="lazy" decoding="async">
+            </figure>
+            <div class="work__meta">
+              <h3 class="work__title">
+                Faith Baptist Church
+                <span class="work__ext" aria-hidden="true">↗</span>
+              </h3>
+              <p class="work__desc">
+                A growing church had outgrown its old site. The rebuild put the sermon
+                archive, event calendar, and online giving in one place — and made all
+                of it easy enough for staff to update themselves.
+              </p>
+              <p class="work__url">fbcchelsea.org<span class="visually-hidden"> (opens in a new tab)</span></p>
+            </div>
+          </a>
+        </article>
+
+        <article class="work__item reveal">
+          <div class="work__link work__link--static">
+            <figure class="work__figure">
+              <!-- Illustrative image. Replace with a real screenshot of the
+                   scheduler once there's a view that isn't family data. 4:3. -->
+              <img src="assets/img/work-scheduler.jpg"
+                   alt="A stack of school textbooks in assorted colours"
+                   width="1100" height="825" loading="lazy" decoding="async">
+            </figure>
+            <div class="work__meta">
+              <h3 class="work__title">Homeschool Co-op Scheduler</h3>
+              <p class="work__desc">
+                A multi-family co-op was running its entire schedule on spreadsheets
+                passed around by email. Now it's a custom scheduling and lesson-tracking
+                platform. One source of truth, no attachments.
+              </p>
+              <p class="work__url">Custom platform</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="work__item reveal">
+          <div class="work__link work__link--static">
+            <figure class="work__figure">
+              <!-- Illustrative image. Replace with a real screenshot of the
+                   live standings view once the league is happy to show it. 4:3. -->
+              <img src="assets/img/work-golf.jpg"
+                   alt="A golf ball resting on the lip of the hole on a sunlit putting green"
+                   width="1100" height="825" loading="lazy" decoding="async">
+            </figure>
+            <div class="work__meta">
+              <h3 class="work__title">Golf League Tracker</h3>
+              <p class="work__desc">
+                Live standings and scheduling for a community golf league. Scores go in,
+                the standings update, and every player sees the same thing at the same time.
+              </p>
+              <p class="work__url">Custom platform</p>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       PRICING
+       ============================================================ -->
+  <section class="section section--paper" id="pricing">
+    <div class="shell">
+
+      <header class="section__head section__head--split reveal">
+        <div>
+          <p class="eyebrow">Pricing</p>
+          <h2 class="section__title">Listed up front.</h2>
+        </div>
+        <p class="section__lede">
+          One-time build, then $85 a month to keep it running. That's the whole structure.
+        </p>
+      </header>
+
+      <div class="tiers">
+
+        <article class="tier reveal">
+          <header class="tier__head">
+            <h3 class="tier__name">Starter</h3>
+            <p class="tier__price"><span class="tier__amount">$650</span></p>
+            <p class="tier__for">A clean, credible presence for a business that has none.</p>
+          </header>
+          <ul class="tier__list">
+            <li>Up to 5 pages</li>
+            <li>You provide the copy</li>
+            <li>Basic contact form</li>
+            <li>1 round of revisions</li>
+          </ul>
+          <a class="btn btn--outline tier__btn" href="#contact">Start with Starter</a>
+        </article>
+
+        <article class="tier tier--featured reveal">
+          <p class="tier__flag">Most popular</p>
+          <header class="tier__head">
+            <h3 class="tier__name">Standard</h3>
+            <p class="tier__price"><span class="tier__amount">$1,400</span></p>
+            <p class="tier__for">The one most local businesses actually need.</p>
+          </header>
+          <ul class="tier__list">
+            <li>Up to 8 pages</li>
+            <li>I write the copy</li>
+            <li>Booking or quote-request form</li>
+            <li>Google Business Profile + basic on-page SEO</li>
+            <li>2 rounds of revisions</li>
+          </ul>
+          <a class="btn btn--accent tier__btn" href="#contact">Start with Standard</a>
+        </article>
+
+        <article class="tier reveal">
+          <header class="tier__head">
+            <h3 class="tier__name">Growth</h3>
+            <p class="tier__price"><span class="tier__amount">$2,200+</span></p>
+            <p class="tier__for">For businesses that need the site to do real work.</p>
+          </header>
+          <ul class="tier__list">
+            <li>Custom page count</li>
+            <li>I write the copy</li>
+            <li>Booking plus online ordering or scheduling</li>
+            <li>Google Business Profile + basic on-page SEO</li>
+            <li>2 rounds of revisions</li>
+          </ul>
+          <a class="btn btn--outline tier__btn" href="#contact">Start with Growth</a>
+        </article>
+
+      </div>
+
+      <aside class="retainer reveal">
+        <p class="retainer__price"><span>$85</span>/month</p>
+        <div class="retainer__body">
+          <h3 class="retainer__title">Every package includes the care plan.</h3>
+          <p>
+            Hosting, security updates, uptime monitoring, and small content edits as
+            you need them. Your site stays online, current, and looked after — you don't
+            have to think about it again.
+          </p>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       WHY LOCAL — trust points. Deliberately no testimonials:
+       this business has no clients yet and won't fake any.
+       ============================================================ -->
+  <section class="section section--ink section--tight" id="why">
+    <div class="shell">
+
+      <header class="section__head reveal">
+        <p class="eyebrow eyebrow--light">Why local</p>
+        <h2 class="section__title">Who you're actually hiring.</h2>
+      </header>
+
+      <ul class="trust">
+        <li class="trust__item reveal">
+          <h3 class="trust__title">Local, not outsourced</h3>
+          <p>
+            You can call and talk to the person actually building your site. Not an
+            account manager. Not a contractor three time zones away.
+          </p>
+        </li>
+        <li class="trust__item reveal">
+          <h3 class="trust__title">Built by someone who builds things</h3>
+          <p>
+            A background in manufacturing engineering and hands-on work shows up in how
+            a site gets planned and put together. Measure first, then build once.
+          </p>
+        </li>
+        <li class="trust__item reveal">
+          <h3 class="trust__title">Fair, transparent pricing</h3>
+          <p>
+            Packages are listed up front. No vague quotes, no pricing that depends on
+            how the discovery call goes, no surprise invoices.
+          </p>
+        </li>
+      </ul>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       ABOUT
+       ============================================================ -->
+  <section class="section section--paper" id="about">
+    <div class="shell about">
+
+      <figure class="about__media reveal">
+        <!--
+          Deliberately NOT a stock photo of a person. A stranger's face sitting
+          under the heading "Steven Wireman" would be a straightforward lie to
+          anyone reading the page, so this shows the work instead of a face.
+
+          Replace with a real photo of Steven when there is one — documentary
+          rather than a studio headshot (at the church, on site, in a shop).
+          Keep the 4:5 ratio (1000x1250) and nothing else needs to change.
+        -->
+        <img src="assets/img/about-portrait.jpg"
+             alt="Engineering drawings marked up by hand on a workbench, beside calipers, a cutting mat, and a toolbox"
+             width="1000" height="1250" loading="lazy" decoding="async">
+      </figure>
+
+      <div class="about__body reveal">
+        <p class="eyebrow">About</p>
+        <h2 class="section__title">Steven Wireman</h2>
+
+        <blockquote class="about__quote">
+          <p>Plan it properly. Build it solid. Hand it over ready to run.</p>
+        </blockquote>
+
+        <p>
+          Steven serves as Assistant Pastor at Faith Baptist Church in Chelsea, where the
+          same hands-on approach shows up in facility work, event planning, and technical
+          production.
+        </p>
+        <p>
+          Before that, his background was in manufacturing — first as a production engineer,
+          later as a robotics trainer. That mix of ministry, mechanical, and technical
+          experience is where Cornerstone's approach comes from.
+        </p>
+        <p>
+          Based in the Jackson and Chelsea area.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CONTACT
+       ============================================================ -->
+  <section class="section section--ink section--contact" id="contact">
+    <div class="shell contact">
+
+      <div class="contact__head reveal">
+        <p class="eyebrow eyebrow--light">Get started</p>
+        <h2 class="contact__title">Ready for a free mockup?</h2>
+        <p class="contact__lede">
+          Send a quick message — no cost, no obligation. I'll build you a real mockup of
+          your site so you can see the thing itself before you decide anything.
+        </p>
+      </div>
+
+      <!--
+        ============================================================
+        CONTACT DETAILS — EDIT THESE TWO BLOCKS
+        ============================================================
+        Replace the placeholder text AND the matching href.
+
+          Phone : href="tel:+15175550123"  (E.164, no spaces or dashes)
+          Email : href="mailto:steven@cornerstonewebco.com"
+
+        The email is pending a domain-based inbox and is not set up yet.
+        ============================================================
+      -->
+      <dl class="contact__details reveal">
+
+        <div class="contact__row">
+          <dt>Phone</dt>
+          <dd>
+            <!-- EDIT: replace href with tel:+1XXXXXXXXXX and the text with the real number -->
+            <a class="contact__value is-placeholder" href="#contact">[PLACEHOLDER — add real number]</a>
+          </dd>
+        </div>
+
+        <div class="contact__row">
+          <dt>Email</dt>
+          <dd>
+            <!-- EDIT: replace href with mailto:you@yourdomain.com and the text with the real address -->
+            <a class="contact__value is-placeholder" href="#contact">[PLACEHOLDER — pending domain inbox]</a>
+          </dd>
+        </div>
+
+        <div class="contact__row">
+          <dt>Area</dt>
+          <dd><span class="contact__value">Jackson &amp; Chelsea, Michigan</span></dd>
+        </div>
+
+      </dl>
+
+      <!--
+        ============================================================
+        WIRING IN A REAL FORM LATER
+        ============================================================
+        This site is static, so a form needs an external endpoint. Two
+        low-effort options that need no server of your own:
+
+          1. Formspree / Basin / Netlify Forms — swap this comment for:
+             <form action="https://formspree.io/f/XXXX" method="POST"> … </form>
+             with name, email, business, and message fields.
+
+          2. A Vercel serverless function at /api/contact that forwards to
+             email (Resend, Postmark). Point the form's action at it.
+
+        Whichever you pick: keep the mailto and tel links above as the
+        no-JavaScript fallback, label every input, and add a honeypot field
+        for spam rather than a CAPTCHA.
+        ============================================================
+      -->
+
+    </div>
+  </section>
+
+</main>
+
+
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Cornerstone Web Co., LLC</p>
+    <p class="site-footer__meta">Websites for local business. Jackson &amp; Chelsea, Michigan.</p>
+    <p class="site-footer__copy">&copy; <span id="year">2026</span> Cornerstone Web Co., LLC</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
