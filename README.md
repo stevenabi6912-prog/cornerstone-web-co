@@ -7,7 +7,8 @@ folder is exactly what gets served.
 ```
 index.html              the whole page
 assets/css/style.css    all styles (tokens at the top)
-assets/js/main.js       ~3KB, all optional enhancement
+assets/js/main.js       ~2KB, all optional enhancement
+assets/fonts/           self-hosted variable fonts (woff2)
 assets/img/             photography + favicon
 robots.txt, sitemap.xml
 ```
@@ -69,33 +70,38 @@ URL mostly works, but a server is closer to production.)
 
 ## Design decisions worth knowing
 
-**The accent green is load-bearing.** `#007A38` — the green of a "cycle start"
-button on a production machine. It was picked against two defaults: terracotta-on-cream
-(the generic template look) and editorial red (the obvious second choice, and what
-most competitors reach for). The full reasoning is in a comment at the top of
-`style.css`.
+**Warm, not cold.** The ground is warm ivory (`#FAF7F2`), not white or near-black,
+and every grey on the page is warm-shifted — more red than blue. A neutral grey on
+ivory is most of what makes a page read clinical. There is exactly **one** dark
+section, the closing call to action, so the dark lands as emphasis rather than mood.
 
-There are two accent values because one green can't sit on both backgrounds
-accessibly: `--accent` for the light sections, `--accent-bright` for the dark ones.
-Every colour pair on the site measures at WCAG AA or better — the measured ratios
-are recorded in that same comment. **Re-measure before changing either value.**
-`#00873E` looks nearly identical and fails at 4.10:1.
+**Real typography, self-hosted.** Headlines are Fraunces (a warm variable serif),
+body is Source Sans 3. Two `.woff2` files, ~93KB total, latin subset, weights
+400–700 — no Google Fonts connection, no third-party request, no tracking. Both
+are preloaded in `<head>` with `crossorigin` (required on font preloads even
+same-origin, or the browser fetches them twice) and set to `font-display: swap`,
+so text paints immediately in the fallback and re-renders when the webfont lands.
 
-**Type is a system-font stack**, on purpose: zero network requests, zero layout
-shift, instant first paint. The monospace stack on eyebrows, section numbers, and
-prices is the engineering register — it ties back to the manufacturing background
-and costs nothing. To swap in a self-hosted font later, add an `@font-face` block
-and prepend the family to `--font-sans`; nothing else needs to change.
+Both fonts are licensed under the SIL Open Font License, which permits commercial
+use and embedding. Keep them served from your own domain.
 
-**One motion moment.** The hero headline wipes up on load and the photograph drifts
-slower than the page as you scroll off it. Everything else just settles in as it
-enters view. The parallax is deliberately constrained: desktop and fine-pointer
-only, stops updating once the hero leaves the viewport, and touches only
-`transform` so it stays off the main thread.
+**The accent green is load-bearing.** `#2D6A4F` — a deep, warm-leaning forest
+green. Warm-leaning matters: a cold blue-green buzzes against ivory. Amber
+(`#D9A03C`) appears only as a decorative rule or fill; where amber needs to be
+readable text it darkens to `#8A5B14`.
 
-**Reduced motion is a real branch, not a token gesture.** `prefers-reduced-motion:
-reduce` removes every transition and disables the parallax in JS as well as CSS.
-Content renders in its final state.
+Every colour pair on the site measures at WCAG AA or better and the ratios are
+recorded in a comment at the top of `style.css`. **Re-measure before changing any
+of them.**
+
+**Soft shapes.** Pill buttons, rounded cards, warm-tinted shadows, and a ~1°
+rotation on the two photographs. Rounded reads welcoming; square reads severe.
+That rotation is removed under `prefers-reduced-motion`.
+
+**Motion is quiet.** Content settles in as it enters view and the hero arrives on
+load. No parallax — the earlier full-bleed photo hero is gone, and scroll-linked
+effects were part of what made the page feel showy rather than trustworthy.
+`prefers-reduced-motion: reduce` removes every transition and un-rotates the photos.
 
 **Nothing depends on JavaScript.** `main.js` adds a `.js` class before first paint,
 and that class is what switches on the hidden-then-reveal behaviour. If the script
@@ -131,26 +137,29 @@ meantime.
 
 ## Photography
 
-The photographs are Unsplash stock, downloaded and served locally rather than
-hotlinked. The Unsplash licence permits commercial use without attribution.
-
 | File | Subject | Source |
 |---|---|---|
-| `hero.jpg` | Welder, sparks | `unsplash.com/photos/…1504328345606-18bbc8c9d7d1` |
-| `about-portrait.jpg` | Engineering drawings, calipers | `…1581092160562-40aa08e78837` |
-| `work-scheduler.jpg` | Stack of textbooks | `…1497633762265-9d179a990aa6` |
-| `work-golf.jpg` | Golf ball on the lip | `…1587174486073-ae5e5cff23aa` |
+| `steven.jpg` | **Steven at Faith Baptist** | your own photo |
+| `hero.jpg` | Shop counter, local retail | Unsplash `…1556740738-b6a63e27c4df` |
+| `work-scheduler.jpg` | Stack of textbooks | Unsplash `…1497633762265-9d179a990aa6` |
+| `work-golf.jpg` | Golf ball on the lip | Unsplash `…1587174486073-ae5e5cff23aa` |
 | `work-faith-baptist.jpg` | Screenshot of fbcchelsea.org | captured from the live site |
 
-**The About image is not a photo of a person, and that's intentional.** A stock
-photo of a stranger under the heading "Steven Wireman" would be a plain lie to
-anyone reading the page. It shows the work instead. Swap in a real photo of Steven
-when there is one — documentary rather than a studio headshot, 4:5 ratio (1000×1250),
-and nothing else needs to change.
+The stock images are downloaded and served locally rather than hotlinked; the
+Unsplash licence permits commercial use without attribution.
+
+**`steven.jpg` is the most valuable image on the page.** It's cropped from the
+original to head-and-torso — a full-body shot renders the face too small to
+connect with at this size. To replace it, crop to **3:4** at roughly 900×1200 and
+keep the same filename; nothing else needs to change.
+
+The hero photograph is stock. If you ever shoot a real Jackson or Chelsea business
+you've built for, that image belongs here — swap the file, keep the 4:5 ratio
+(1100×1375).
 
 Every image has a fixed `width`/`height` in the markup so the browser reserves
-space and the page doesn't shift while they load. If you swap an image for one with
-a different aspect ratio, update those attributes to match.
+space and the page doesn't shift while it loads. If you swap in an image with a
+different aspect ratio, update those attributes to match.
 
 ---
 

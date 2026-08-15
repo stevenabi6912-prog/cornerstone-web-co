@@ -8,11 +8,10 @@
 <meta name="description" content="Custom-built websites for local businesses in Jackson and Chelsea, Michigan. Built from scratch, launched for you, and looked after every month. Free mockup before you pay anything.">
 
 <link rel="canonical" href="https://cornerstonewebco.com/">
-<meta name="theme-color" content="#101211">
+<meta name="theme-color" content="#FAF7F2">
 
-<!-- Open Graph / social. NOTE: og:image must be a raster file (PNG/JPG, 1200x630).
-     Export one from the hero photo once real photography is in place, save it to
-     assets/img/og-cover.jpg, and this tag is ready to go. -->
+<!-- Open Graph / social. og:image must be an absolute URL, so this tag needs
+     the real domain before launch. -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Cornerstone Web Co. — Custom Websites for Jackson &amp; Chelsea, Michigan">
 <meta property="og:description" content="Custom-built websites for local businesses who don't have the time to do it themselves. Free mockup, no obligation.">
@@ -22,14 +21,16 @@
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+
+<!-- Fonts are self-hosted and render-critical, so preload both. crossorigin is
+     required on font preloads even same-origin, or the browser fetches twice. -->
+<link rel="preload" href="assets/fonts/fraunces-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/source-sans-3-latin-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/style.css">
 
-<!--
-  Progressive enhancement: this class is what turns ON the "hidden, then reveal"
-  scroll animation in CSS. Without JS the class never lands, elements stay
-  visible, and the page reads perfectly as plain HTML. Set inline (not in
-  main.js) so it applies before first paint and there is no flash.
--->
+<!-- Turns ON the hidden-then-reveal behaviour. Without JS the class never
+     lands, every element stays visible, and the page reads as plain HTML.
+     Inline so it applies before first paint — no flash. -->
 <script>document.documentElement.classList.add('js');</script>
 
 <script type="application/ld+json">
@@ -59,7 +60,7 @@
 
     <a class="wordmark" href="#top" aria-label="Cornerstone Web Co., home">
       <svg class="wordmark__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path d="M2 22V7.5L12 2l10 5.5V22H2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M2 22V7.5L12 2l10 5.5V22H2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
         <path d="M2 22V14h8v8" fill="currentColor" stroke="none"/>
       </svg>
       <span class="wordmark__text">
@@ -92,63 +93,76 @@
        HERO
        ============================================================ -->
   <section class="hero" id="top">
+    <div class="shell hero__grid">
 
-    <div class="hero__media">
-      <!--
-        Hero photograph. Deliberately a trade at work rather than a laptop on a
-        desk — the customer here is the shop, not another agency.
-        To swap: keep the 16:10 ratio (1800x1125) and the file name, and the
-        layout, parallax, and scrim all continue to work untouched.
-      -->
-      <img class="hero__img" id="heroImg"
-           src="assets/img/hero.jpg"
-           alt="A welder in a protective mask joining steel in a fabrication shop, sparks scattering across the frame"
-           width="1800" height="1125" fetchpriority="high" decoding="async">
-      <div class="hero__scrim" aria-hidden="true"></div>
-    </div>
+      <div class="hero__body">
+        <p class="eyebrow">Jackson &amp; Chelsea, Michigan</p>
 
-    <div class="shell hero__body">
-      <p class="eyebrow eyebrow--light">Jackson &amp; Chelsea, Michigan</p>
+        <h1 class="hero__title">
+          Your business is already good.
+          <span class="hl">Your website should say so.</span>
+        </h1>
 
-      <h1 class="hero__title">
-        <span class="reveal-line"><span>Your business is already good.</span></span>
-        <span class="reveal-line"><span>Your website should say so.</span></span>
-      </h1>
+        <p class="hero__sub">
+          Custom-built websites for local businesses who don't have the time —
+          or the patience — to do it themselves.
+        </p>
 
-      <p class="hero__sub">
-        Custom-built websites for local businesses who don't have the time —
-        or the patience — to do it themselves.
-      </p>
+        <div class="hero__actions">
+          <a class="btn btn--accent" href="#contact">Get a free mockup</a>
+          <a class="btn btn--outline" href="#work">See the work</a>
+        </div>
 
-      <div class="hero__actions">
-        <a class="btn btn--accent" href="#contact">Get a free mockup</a>
-        <a class="btn btn--ghost" href="#work">See the work</a>
+        <p class="hero__note">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+            <path d="m8.5 12 2.5 2.5 4.5-5" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>No cost, no obligation. You see the real thing before you pay for anything.</span>
+        </p>
       </div>
 
-      <p class="hero__note">No cost, no obligation. You see the real thing before you pay for anything.</p>
-    </div>
+      <figure class="hero__media">
+        <!--
+          Warm, human, local-business scene. If you'd rather show a real
+          Jackson or Chelsea business you've photographed yourself, swap this
+          file and keep the 4:5 ratio (1100x1375) — nothing else changes.
+        -->
+        <img src="assets/img/hero.jpg"
+             alt="A shop owner serving a customer at the counter of a bright local store"
+             width="1100" height="1375" fetchpriority="high" decoding="async">
+      </figure>
 
-    <a class="hero__scroll" href="#services" aria-label="Scroll to services">
-      <span aria-hidden="true"></span>
-    </a>
+    </div>
   </section>
 
 
   <!-- ============================================================
        SERVICES
        ============================================================ -->
-  <section class="section section--paper" id="services">
+  <section class="section" id="services">
     <div class="shell">
 
-      <header class="section__head reveal">
-        <p class="eyebrow">What you get</p>
-        <h2 class="section__title">Three things, done properly.</h2>
+      <header class="section__head section__head--split reveal">
+        <div>
+          <p class="eyebrow">What you get</p>
+          <h2 class="section__title">Three things, done properly.</h2>
+        </div>
+        <p class="section__lede">
+          Build it, launch it, look after it. That's the whole job.
+        </p>
       </header>
 
       <ol class="services">
 
         <li class="service reveal">
-          <p class="service__num">01</p>
+          <span class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-5h6v5" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
           <h3 class="service__title">Build</h3>
           <p class="service__copy">
             Designed and built from scratch. No recycled templates, no cookie-cutter
@@ -158,7 +172,15 @@
         </li>
 
         <li class="service reveal">
-          <p class="service__num">02</p>
+          <span class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 3c3.5 2.5 5 6 5 9.5V17H7v-4.5C7 9 8.5 5.5 12 3Z"
+                    stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <circle cx="12" cy="10" r="1.8" stroke="currentColor" stroke-width="2"/>
+              <path d="M9 19.5 7 22M15 19.5 17 22" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
           <h3 class="service__title">Launch</h3>
           <p class="service__copy">
             Hosting, domain setup, and a smooth go-live, all handled. You never touch
@@ -167,7 +189,14 @@
         </li>
 
         <li class="service reveal">
-          <p class="service__num">03</p>
+          <span class="service__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M20.5 12.5a8.5 8.5 0 1 0-3.2 6.6L21 20l-1-3.4a8.4 8.4 0 0 0 .5-4.1Z"
+                    stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M8.5 12h7M8.5 9h7M8.5 15h4" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </span>
           <h3 class="service__title">Support</h3>
           <p class="service__copy">
             Every site includes the care plan — updates, monitoring, and small edits
@@ -183,12 +212,12 @@
   <!-- ============================================================
        WORK — curated, not exhaustive. Three projects only, on purpose.
        ============================================================ -->
-  <section class="section section--ink" id="work">
+  <section class="section section--warm" id="work">
     <div class="shell">
 
       <header class="section__head section__head--split reveal">
         <div>
-          <p class="eyebrow eyebrow--light">Selected work</p>
+          <p class="eyebrow">Selected work</p>
           <h2 class="section__title">A few things worth showing.</h2>
         </div>
         <p class="section__lede">
@@ -201,17 +230,14 @@
         <article class="work__item reveal">
           <a class="work__link" href="https://fbcchelsea.org" target="_blank" rel="noopener noreferrer">
             <figure class="work__figure work__figure--framed">
-              <!-- Browser chrome. Decorative framing only — the address is
-                   repeated as real text in .work__url below, so nothing here
-                   is information a screen reader needs. -->
+              <!-- Decorative chrome. The address is repeated as real text
+                   below, so there's nothing here a screen reader needs. -->
               <span class="chrome" aria-hidden="true">
                 <span class="chrome__dots"><i></i><i></i><i></i></span>
                 <span class="chrome__url">fbcchelsea.org</span>
               </span>
-              <!-- Real screenshot of the live site, captured at 1600x518 so the
-                   frame ends exactly at the bottom of their hero. -->
               <img src="assets/img/work-faith-baptist.jpg"
-                   alt="The Faith Baptist Church homepage: the congregation singing behind the headline &quot;Rooted in the Word, growing in grace&quot; with buttons to join in person or online"
+                   alt="The Faith Baptist Church homepage: the congregation singing behind the headline &quot;Rooted in the Word, growing in grace&quot;"
                    width="1600" height="508" loading="lazy" decoding="async">
             </figure>
             <div class="work__meta">
@@ -224,16 +250,14 @@
                 archive, event calendar, and online giving in one place — and made all
                 of it easy enough for staff to update themselves.
               </p>
-              <p class="work__url">fbcchelsea.org<span class="visually-hidden"> (opens in a new tab)</span></p>
+              <span class="work__tag">fbcchelsea.org<span class="visually-hidden"> (opens in a new tab)</span></span>
             </div>
           </a>
         </article>
 
         <article class="work__item reveal">
-          <div class="work__link work__link--static">
+          <div class="work__link">
             <figure class="work__figure">
-              <!-- Illustrative image. Replace with a real screenshot of the
-                   scheduler once there's a view that isn't family data. 4:3. -->
               <img src="assets/img/work-scheduler.jpg"
                    alt="A stack of school textbooks in assorted colours"
                    width="1100" height="825" loading="lazy" decoding="async">
@@ -245,16 +269,14 @@
                 passed around by email. Now it's a custom scheduling and lesson-tracking
                 platform. One source of truth, no attachments.
               </p>
-              <p class="work__url">Custom platform</p>
+              <span class="work__tag">Custom platform</span>
             </div>
           </div>
         </article>
 
         <article class="work__item reveal">
-          <div class="work__link work__link--static">
+          <div class="work__link">
             <figure class="work__figure">
-              <!-- Illustrative image. Replace with a real screenshot of the
-                   live standings view once the league is happy to show it. 4:3. -->
               <img src="assets/img/work-golf.jpg"
                    alt="A golf ball resting on the lip of the hole on a sunlit putting green"
                    width="1100" height="825" loading="lazy" decoding="async">
@@ -265,7 +287,7 @@
                 Live standings and scheduling for a community golf league. Scores go in,
                 the standings update, and every player sees the same thing at the same time.
               </p>
-              <p class="work__url">Custom platform</p>
+              <span class="work__tag">Custom platform</span>
             </div>
           </div>
         </article>
@@ -278,7 +300,7 @@
   <!-- ============================================================
        PRICING
        ============================================================ -->
-  <section class="section section--paper" id="pricing">
+  <section class="section" id="pricing">
     <div class="shell">
 
       <header class="section__head section__head--split reveal">
@@ -344,7 +366,7 @@
       </div>
 
       <aside class="retainer reveal">
-        <p class="retainer__price"><span>$85</span>/month</p>
+        <p class="retainer__price"><span>$85</span>per month</p>
         <div class="retainer__body">
           <h3 class="retainer__title">Every package includes the care plan.</h3>
           <p>
@@ -361,40 +383,62 @@
 
   <!-- ============================================================
        WHY LOCAL — trust points. Deliberately no testimonials:
-       this business has no clients yet and won't fake any.
+       this business has no clients yet and won't invent any.
        ============================================================ -->
-  <section class="section section--ink section--tight" id="why">
+  <section class="section section--warm" id="why">
     <div class="shell">
 
       <header class="section__head reveal">
-        <p class="eyebrow eyebrow--light">Why local</p>
+        <p class="eyebrow">Why local</p>
         <h2 class="section__title">Who you're actually hiring.</h2>
       </header>
 
       <ul class="trust">
+
         <li class="trust__item reveal">
+          <span class="trust__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M6.5 3h3l1.5 4.5-2 1.5a13 13 0 0 0 6 6l1.5-2L21 14.5v3a2.5 2.5 0 0 1-2.7 2.5A16.5 16.5 0 0 1 3.5 5.7 2.5 2.5 0 0 1 6 3Z"
+                    stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </span>
           <h3 class="trust__title">Local, not outsourced</h3>
           <p>
             You can call and talk to the person actually building your site. Not an
             account manager. Not a contractor three time zones away.
           </p>
         </li>
+
         <li class="trust__item reveal">
+          <span class="trust__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M14.5 3.5a5 5 0 0 0-6.1 6.6L3.5 15a2.1 2.1 0 0 0 3 3l4.9-4.9a5 5 0 0 0 6.6-6.1l-2.9 2.9-2.6-2.6Z"
+                    stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </span>
           <h3 class="trust__title">Built by someone who builds things</h3>
           <p>
             A background in manufacturing engineering and hands-on work shows up in how
             a site gets planned and put together. Measure first, then build once.
           </p>
         </li>
+
         <li class="trust__item reveal">
+          <span class="trust__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M3.5 12.5 11 5h8v8l-7.5 7.5a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8Z"
+                    stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <circle cx="15.5" cy="8.5" r="1.4" fill="currentColor"/>
+            </svg>
+          </span>
           <h3 class="trust__title">Fair, transparent pricing</h3>
           <p>
             Packages are listed up front. No vague quotes, no pricing that depends on
             how the discovery call goes, no surprise invoices.
           </p>
         </li>
-      </ul>
 
+      </ul>
     </div>
   </section>
 
@@ -402,44 +446,47 @@
   <!-- ============================================================
        ABOUT
        ============================================================ -->
-  <section class="section section--paper" id="about">
+  <section class="section" id="about">
     <div class="shell about">
 
       <figure class="about__media reveal">
         <!--
-          Deliberately NOT a stock photo of a person. A stranger's face sitting
-          under the heading "Steven Wireman" would be a straightforward lie to
-          anyone reading the page, so this shows the work instead of a face.
-
-          Replace with a real photo of Steven when there is one — documentary
-          rather than a studio headshot (at the church, on site, in a shop).
-          Keep the 4:5 ratio (1000x1250) and nothing else needs to change.
+          Steven at Faith Baptist. 3:4 portrait — object-position keeps the
+          face in frame if the box ends up shorter than the photo.
+          To replace: drop a new file at assets/img/steven.jpg, same ratio.
         -->
-        <img src="assets/img/about-portrait.jpg"
-             alt="Engineering drawings marked up by hand on a workbench, beside calipers, a cutting mat, and a toolbox"
-             width="1000" height="1250" loading="lazy" decoding="async">
+        <img src="assets/img/steven.jpg"
+             alt="Steven Wireman, standing in the sanctuary at Faith Baptist Church in Chelsea"
+             width="900" height="1200" loading="lazy" decoding="async">
       </figure>
 
       <div class="about__body reveal">
         <p class="eyebrow">About</p>
-        <h2 class="section__title">Steven Wireman</h2>
+        <h2 class="section__title">Hi — I'm Steven.</h2>
 
         <blockquote class="about__quote">
           <p>Plan it properly. Build it solid. Hand it over ready to run.</p>
         </blockquote>
 
         <p>
-          Steven serves as Assistant Pastor at Faith Baptist Church in Chelsea, where the
-          same hands-on approach shows up in facility work, event planning, and technical
+          I serve as Assistant Pastor at Faith Baptist Church in Chelsea, where the same
+          hands-on approach shows up in facility work, event planning, and technical
           production.
         </p>
         <p>
-          Before that, his background was in manufacturing — first as a production engineer,
+          Before that, my background was in manufacturing — first as a production engineer,
           later as a robotics trainer. That mix of ministry, mechanical, and technical
           experience is where Cornerstone's approach comes from.
         </p>
         <p>
-          Based in the Jackson and Chelsea area.
+          If you're a local business owner who knows the website needs doing and never
+          has the time, that's exactly who I built this for. Call me and we'll talk it
+          through — no cost, no pressure.
+        </p>
+
+        <p class="about__sign">
+          <strong>Steven Wireman</strong>
+          <span>Owner, Cornerstone Web Co. — Jackson &amp; Chelsea, Michigan</span>
         </p>
       </div>
 
@@ -448,13 +495,13 @@
 
 
   <!-- ============================================================
-       CONTACT
+       CONTACT — the one dark section on the page
        ============================================================ -->
-  <section class="section section--ink section--contact" id="contact">
+  <section class="section section--dark" id="contact">
     <div class="shell contact">
 
       <div class="contact__head reveal">
-        <p class="eyebrow eyebrow--light">Get started</p>
+        <p class="eyebrow">Get started</p>
         <h2 class="contact__title">Ready for a free mockup?</h2>
         <p class="contact__lede">
           Send a quick message — no cost, no obligation. I'll build you a real mockup of
@@ -466,12 +513,11 @@
         ============================================================
         CONTACT DETAILS — EDIT THESE TWO BLOCKS
         ============================================================
-        Replace the placeholder text AND the matching href.
+        Replace the placeholder text AND the matching href, and remove the
+        is-placeholder class so it renders as a live link:
 
-          Phone : href="tel:+15175550123"  (E.164, no spaces or dashes)
+          Phone : href="tel:+15175550123"   (E.164 — no spaces or dashes)
           Email : href="mailto:steven@cornerstonewebco.com"
-
-        The email is pending a domain-based inbox and is not set up yet.
         ============================================================
       -->
       <dl class="contact__details reveal">
@@ -479,7 +525,7 @@
         <div class="contact__row">
           <dt>Phone</dt>
           <dd>
-            <!-- EDIT: replace href with tel:+1XXXXXXXXXX and the text with the real number -->
+            <!-- EDIT: swap href to tel:+1XXXXXXXXXX, drop is-placeholder -->
             <a class="contact__value is-placeholder" href="#contact">[PLACEHOLDER — add real number]</a>
           </dd>
         </div>
@@ -487,7 +533,7 @@
         <div class="contact__row">
           <dt>Email</dt>
           <dd>
-            <!-- EDIT: replace href with mailto:you@yourdomain.com and the text with the real address -->
+            <!-- EDIT: swap href to mailto:you@yourdomain.com, drop is-placeholder -->
             <a class="contact__value is-placeholder" href="#contact">[PLACEHOLDER — pending domain inbox]</a>
           </dd>
         </div>
@@ -503,19 +549,17 @@
         ============================================================
         WIRING IN A REAL FORM LATER
         ============================================================
-        This site is static, so a form needs an external endpoint. Two
-        low-effort options that need no server of your own:
+        The site is static, so a form needs an external endpoint:
 
-          1. Formspree / Basin / Netlify Forms — swap this comment for:
+          1. Formspree / Basin / Netlify Forms —
              <form action="https://formspree.io/f/XXXX" method="POST"> … </form>
              with name, email, business, and message fields.
 
-          2. A Vercel serverless function at /api/contact that forwards to
-             email (Resend, Postmark). Point the form's action at it.
+          2. A serverless function at /api/contact that forwards to email
+             (Resend, Postmark), with the form action pointed at it.
 
-        Whichever you pick: keep the mailto and tel links above as the
-        no-JavaScript fallback, label every input, and add a honeypot field
-        for spam rather than a CAPTCHA.
+        Either way: keep the tel: and mailto: links above as the no-JavaScript
+        fallback, label every input, and use a honeypot field, not a CAPTCHA.
         ============================================================
       -->
 

@@ -1,23 +1,18 @@
 /* ============================================================================
    Cornerstone Web Co. — main.js
 
-   No dependencies, no framework. Roughly 3KB unminified. Everything here is an
-   enhancement: if this file fails to load, the page still renders, reads, and
-   navigates correctly.
+   No dependencies, no framework, ~2KB. Everything here is an enhancement: if
+   this file fails to load, the page still renders, reads, and navigates fine.
 
    1. Footer year
-   2. Header solid-state on scroll
+   2. Header shadow on scroll
    3. Mobile navigation
    4. Hero entrance
    5. Scroll reveal
-   6. Hero parallax — the one motion moment
    ========================================================================= */
 
 (function () {
   'use strict';
-
-  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
 
   /* --------------------------------------------------------------------
      1. Footer year
@@ -27,25 +22,22 @@
 
 
   /* --------------------------------------------------------------------
-     2. Header solid-state
-     Watches a 1px sentinel pinned near the bottom of the hero instead of
-     listening to scroll — the browser does the work off the main thread.
+     2. Header shadow
+     Watches a 1px sentinel at the top of the page rather than listening to
+     scroll, so the browser does the work off the main thread.
      -------------------------------------------------------------------- */
   var header = document.getElementById('siteHeader');
-  var hero = document.querySelector('.hero');
 
-  if (header && hero && 'IntersectionObserver' in window) {
+  if (header && 'IntersectionObserver' in window) {
     var sentinel = document.createElement('div');
     sentinel.setAttribute('aria-hidden', 'true');
     sentinel.style.cssText =
-      'position:absolute;bottom:120px;left:0;width:1px;height:1px;pointer-events:none;';
-    hero.appendChild(sentinel);
+      'position:absolute;top:0;left:0;width:1px;height:40px;pointer-events:none;';
+    document.body.appendChild(sentinel);
 
     new IntersectionObserver(function (entries) {
       header.classList.toggle('is-stuck', !entries[0].isIntersecting);
     }, { threshold: 0 }).observe(sentinel);
-  } else if (header) {
-    header.classList.add('is-stuck');
   }
 
 
@@ -82,7 +74,7 @@
 
     // If the viewport grows past the mobile breakpoint while the panel is
     // open, reset — otherwise body scroll stays locked on desktop.
-    var wide = window.matchMedia('(min-width: 801px)');
+    var wide = window.matchMedia('(min-width: 821px)');
     var onWide = function (e) { if (e.matches) setNav(false); };
     if (wide.addEventListener) wide.addEventListener('change', onWide);
     else if (wide.addListener) wide.addListener(onWide);
@@ -91,9 +83,11 @@
 
   /* --------------------------------------------------------------------
      4. Hero entrance
-     Waits for the hero image so the headline doesn't animate over an empty
-     frame. Capped at 900ms so a slow image never holds the copy hostage.
+     Waits for the hero photograph so the copy doesn't animate in beside an
+     empty frame. Capped at 900ms so a slow image never holds the text back.
      -------------------------------------------------------------------- */
+  var hero = document.querySelector('.hero');
+
   if (hero) {
     var started = false;
     var startHero = function () {
@@ -102,7 +96,7 @@
       requestAnimationFrame(function () { hero.classList.add('is-ready'); });
     };
 
-    var heroImg = document.getElementById('heroImg');
+    var heroImg = hero.querySelector('.hero__media img');
     if (heroImg && !heroImg.complete) {
       heroImg.addEventListener('load', startHero, { once: true });
       heroImg.addEventListener('error', startHero, { once: true });
@@ -125,8 +119,8 @@
   } else if (!('IntersectionObserver' in window)) {
     for (var i = 0; i < reveals.length; i++) reveals[i].classList.add('is-in');
   } else {
-    // Stagger siblings within the same container so a row arrives in sequence
-    // rather than all at once. Cycles 0-3 to cap the total delay.
+    // Stagger siblings within the same container so a row arrives in
+    // sequence. Cycles 0-3 to cap the total delay.
     var groups = new Map();
     reveals.forEach(function (el) {
       var parent = el.parentNode;
@@ -142,67 +136,13 @@
         obs.unobserve(entry.target); // reveal once, then stop watching
       });
     }, {
-      // Fires a little before the element reaches the fold, so the motion
+      // Fires slightly before the element reaches the fold, so the motion
       // finishes as it settles into view rather than starting there.
-      rootMargin: '0px 0px -12% 0px',
+      rootMargin: '0px 0px -10% 0px',
       threshold: 0.05
     });
 
     reveals.forEach(function (el) { revealObserver.observe(el); });
-  }
-
-
-  /* --------------------------------------------------------------------
-     6. Hero parallax — the one motion moment
-
-     The hero photograph drifts slower than the page as you scroll off it.
-     Deliberately the only scroll-linked effect on the site.
-
-     Constrained on three counts:
-       - skipped entirely under prefers-reduced-motion
-       - desktop + fine pointer only (mobile address-bar resize makes
-         scroll-linked transforms janky, and it isn't worth the battery)
-       - stops updating once the hero has left the viewport
-     Writes are batched into one rAF frame and touch only `transform`,
-     so it stays on the compositor and never triggers layout.
-     -------------------------------------------------------------------- */
-  var heroImage = document.getElementById('heroImg');
-  var canParallax =
-    heroImage &&
-    hero &&
-    !reduceMotion.matches &&
-    window.matchMedia('(min-width: 801px) and (pointer: fine)').matches;
-
-  if (canParallax) {
-    var ticking = false;
-    var visible = true;
-    var MAX_SHIFT = 90; // px the image travels across the full hero height
-
-    var update = function () {
-      ticking = false;
-      var height = hero.offsetHeight || 1;
-      // 0 at the top of the page → 1 when the hero is fully scrolled past.
-      var progress = Math.min(Math.max(window.scrollY / height, 0), 1);
-      heroImage.style.transform =
-        'translate3d(0,' + (progress * MAX_SHIFT).toFixed(2) + 'px,0) scale(1.08)';
-    };
-
-    var onScroll = function () {
-      if (ticking || !visible) return;
-      ticking = true;
-      requestAnimationFrame(update);
-    };
-
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
-        visible = entries[0].isIntersecting;
-        if (visible) onScroll();
-      }, { threshold: 0 }).observe(hero);
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-    update();
   }
 
 })();

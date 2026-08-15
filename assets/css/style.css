@@ -1,110 +1,132 @@
 /* ============================================================================
    Cornerstone Web Co. — stylesheet
-   Plain CSS, no build step, no framework. Load order in this file:
-   tokens → reset → typography → layout → components → motion → responsive.
+
+   Warm, bright, editorial. Ivory ground, serif headlines, one dark section
+   near the end for contrast. Plain CSS, no build step.
+
+   Order: fonts → tokens → reset → a11y → layout → components → motion.
    ========================================================================= */
 
 
 /* ---------------------------------------------------------------------------
-   1. TOKENS
+   1. FONTS — self-hosted, latin subset, variable
+   Two files, ~93KB total, covering weights 400–700 with no extra requests
+   and no third-party connection. font-display:swap so text paints immediately
+   in the fallback and re-renders when the webfont lands.
+   Both SIL Open Font License; see README.
+   ------------------------------------------------------------------------ */
+@font-face {
+  font-family: 'Fraunces';
+  src: url('../fonts/fraunces-latin-var.woff2') format('woff2-variations');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  src: url('../fonts/source-sans-3-latin-var.woff2') format('woff2-variations');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+/* ---------------------------------------------------------------------------
+   2. TOKENS
    ------------------------------------------------------------------------ */
 :root {
 
-  /* -- ACCENT ---------------------------------------------------------------
-     #00873E — the green of a "cycle start" button on a production machine.
+  /* -- Surfaces -------------------------------------------------------------
+     Everything is warm. The base is ivory rather than white, and the greys
+     are warm-shifted (more red than blue) — a neutral grey on ivory is what
+     makes a page read cold and clinical. Only ONE dark region on the page,
+     at the closing call to action, so it lands as emphasis and not as mood. */
+  --paper:      #FAF7F2;   /* warm ivory — the page ground */
+  --paper-warm: #F3EDE3;   /* deeper tint for alternating sections */
+  --card:       #FFFFFF;   /* cards lift off the ivory */
+  --ink-deep:   #211E1A;   /* the single dark section */
 
-     Chosen deliberately over the two colors this kind of site usually lands on.
-     Terracotta-on-cream is the generic template default and was ruled out.
-     Editorial red (Leica, The Economist) is the obvious second choice, which is
-     exactly why it isn't distinctive here.
+  /* -- Text -- */
+  --ink:        #2A2724;   /* warm charcoal — headings and body */
+  --ink-soft:   #635B52;   /* warm muted — secondary copy */
+  --on-dark:    #F7F3EC;
+  --on-dark-soft: #BCB3A7;
 
-     Green earns its place on two counts. It is literally Steven's background —
-     the illuminated green button you press when the machine is set up correctly
-     and ready to run — which is the same promise the Launch service makes. And
-     against near-black with real photography it reads as a physical signal
-     color, not a UI "success" state, so it stays out of SaaS-template territory.
+  /* -- Lines -- */
+  --line:       #E5DDD1;
+  --line-dark:  #3A342D;
 
-     Two values, because one green cannot carry both backgrounds accessibly.
-     Measured ratios (sRGB relative luminance, WCAG 2.1) — all AA or better:
-       --accent        #007A38 on --paper #F2F1EE  → 4.84:1  (normal text)
-       white           #FFFFFF on --accent         → 5.47:1  (button label)
-       --accent-bright #35D07F on --ink   #101211  → 9.39:1  (AAA)
-       --ink           #101211 on --accent-bright  → 9.39:1  (tier flag)
+  /* -- Accent ---------------------------------------------------------------
+     Deep forest green. Warm-leaning rather than the cold blue-green of a
+     "success" state, so it sits naturally on ivory instead of buzzing
+     against it. Amber is a small secondary highlight only — never body text.
+     Measured, all WCAG AA or better:
+       --accent  #2D6A4F on --paper  → 6.15:1
+       white     #FFFFFF on --accent → 6.09:1
+       --amber-ink #8A5B14 on --paper → 5.81:1
+     Re-measure before changing any of these. */
+  --accent:      #2D6A4F;
+  --accent-deep: #235340;
+  --accent-tint: #EAF2ED;
+  --accent-lift: #7FD0A4;  /* on the dark section only */
+  --amber:       #D9A03C;  /* decorative fills / rules only */
+  --amber-ink:   #8A5B14;  /* amber as readable text */
 
-     --accent carries the eyebrows, service numbers, and tier names, which are
-     all normal-size text, so it must clear 4.5:1 — not the 3:1 large-text
-     allowance. A brighter green (#00873E) measures only 4.10:1 here and fails;
-     re-measure before nudging any of these values.
-     --------------------------------------------------------------------- */
-  --accent:        #007A38;
-  --accent-bright: #35D07F;
-  --accent-deep:   #005C29;
+  /* -- Type -- */
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-sans: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
-  /* Neutrals. Ink is very slightly green-shifted so the accent sits in the
-     same family rather than floating on top of a dead grey. */
-  --ink:          #101211;
-  --ink-soft:     #1B1F1D;
-  --ink-line:     #2C312E;
-  --paper:        #F2F1EE;
-  --paper-warm:   #E8E7E2;
-  --paper-line:   #D6D4CE;
+  --step--1: clamp(0.84rem, 0.81rem + 0.12vw, 0.92rem);
+  --step-0:  clamp(1.05rem, 1.00rem + 0.22vw, 1.19rem);
+  --step-1:  clamp(1.22rem, 1.12rem + 0.45vw, 1.48rem);
+  --step-2:  clamp(1.55rem, 1.33rem + 1.00vw, 2.20rem);
+  --step-3:  clamp(2.00rem, 1.58rem + 1.95vw, 3.30rem);
+  --step-4:  clamp(2.55rem, 1.85rem + 3.20vw, 4.70rem);
 
-  /* Text */
-  --text-on-paper:      #101211;
-  --text-on-paper-soft: #4A4F4B;
-  --text-on-ink:        #F2F1EE;
-  --text-on-ink-soft:   #A9AFAA;
+  /* -- Space -- */
+  --gap:       clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  --section-y: clamp(4.5rem, 3rem + 6.5vw, 8.5rem);
+  --shell:     1180px;
+  --shell-pad: clamp(1.25rem, 0.75rem + 2.5vw, 2.75rem);
 
-  /* Type stacks. System fonts on purpose: zero network requests, zero layout
-     shift, instant first paint. The mono stack is used for eyebrows, indices
-     and prices — it gives the engineering/blueprint register that ties back to
-     the manufacturing background, and it costs nothing.
-     To swap in a self-hosted variable font later, add an @font-face block and
-     prepend the family to --font-sans. Nothing else needs to change. */
-  --font-sans: system-ui, -apple-system, "Segoe UI Variable Text", "Segoe UI",
-               Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-               "Liberation Mono", monospace;
+  /* -- Shape — soft, not sharp. Rounded corners and pill buttons are most of
+        what separates "welcoming" from "severe" at a glance. -- */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-pill: 999px;
 
-  /* Fluid type scale — clamp() so there are no breakpoint jumps in headings. */
-  --step--1: clamp(0.82rem, 0.79rem + 0.12vw, 0.88rem);
-  --step-0:  clamp(1rem, 0.96rem + 0.20vw, 1.125rem);
-  --step-1:  clamp(1.20rem, 1.10rem + 0.45vw, 1.45rem);
-  --step-2:  clamp(1.55rem, 1.35rem + 0.95vw, 2.15rem);
-  --step-3:  clamp(2.00rem, 1.60rem + 1.90vw, 3.20rem);
-  --step-4:  clamp(2.60rem, 1.75rem + 4.00vw, 5.60rem);
+  /* -- Shadow — warm-tinted, never neutral black -- */
+  --shadow-sm: 0 1px 2px rgba(42, 39, 36, 0.04),
+               0 2px 8px rgba(42, 39, 36, 0.04);
+  --shadow-md: 0 2px 4px rgba(42, 39, 36, 0.04),
+               0 12px 28px rgba(42, 39, 36, 0.07);
+  --shadow-lg: 0 4px 8px rgba(42, 39, 36, 0.05),
+               0 24px 56px rgba(42, 39, 36, 0.10);
 
-  /* Spacing */
-  --gap:        clamp(1.5rem, 1rem + 2vw, 2.75rem);
-  --section-y:  clamp(4.5rem, 3rem + 7vw, 9.5rem);
-  --shell:      1240px;
-  --shell-pad:  clamp(1.25rem, 0.75rem + 2.5vw, 3rem);
-
-  /* Motion */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 
 /* ---------------------------------------------------------------------------
-   2. RESET
+   3. RESET
    ------------------------------------------------------------------------ */
 *, *::before, *::after { box-sizing: border-box; }
 
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  scroll-padding-top: 90px; /* sticky header clearance for anchor jumps */
 }
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
   margin: 0;
   background: var(--paper);
-  color: var(--text-on-paper);
+  color: var(--ink);
   font-family: var(--font-sans);
   font-size: var(--step-0);
-  line-height: 1.65;
+  line-height: 1.62;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -112,37 +134,31 @@ body {
 
 h1, h2, h3, p, figure, blockquote, dl, dd { margin: 0; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
-
 img, svg { display: block; max-width: 100%; }
 img { height: auto; }
-
 a { color: inherit; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 
-button {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: 0;
-  cursor: pointer;
+/* Headings are the serif. This is the single biggest change in feel — real
+   typography instead of the operating system default. */
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  text-wrap: balance;
 }
 
 
 /* ---------------------------------------------------------------------------
-   3. ACCESSIBILITY PRIMITIVES
+   4. ACCESSIBILITY PRIMITIVES
    ------------------------------------------------------------------------ */
-
-/* A single, always-visible focus treatment. Never removed anywhere in this
-   file — keyboard users get the same affordance on every interactive element. */
 :where(a, button, [tabindex]):focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
-.section--ink :where(a, button):focus-visible,
-.hero :where(a, button):focus-visible,
-.site-header :where(a, button):focus-visible {
-  outline-color: var(--accent-bright);
-}
+.section--dark :where(a, button):focus-visible { outline-color: var(--accent-lift); }
 
 .visually-hidden {
   position: absolute;
@@ -158,18 +174,18 @@ button {
   top: 0; left: 50%;
   transform: translate(-50%, -110%);
   z-index: 200;
-  padding: 0.75rem 1.25rem;
+  padding: 0.75rem 1.4rem;
   background: var(--accent);
   color: #fff;
   font-weight: 600;
   text-decoration: none;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 var(--r-sm) var(--r-sm);
 }
 .skip-link:focus-visible { transform: translate(-50%, 0); }
 
 
 /* ---------------------------------------------------------------------------
-   4. SHARED TYPE + LAYOUT
+   5. LAYOUT PRIMITIVES
    ------------------------------------------------------------------------ */
 .shell {
   width: 100%;
@@ -179,70 +195,64 @@ button {
 }
 
 .section { padding-block: var(--section-y); }
-.section--tight { padding-block: calc(var(--section-y) * 0.72); }
-.section--paper { background: var(--paper); color: var(--text-on-paper); }
-.section--ink   { background: var(--ink);   color: var(--text-on-ink); }
+.section--warm { background: var(--paper-warm); }
+.section--dark {
+  background: var(--ink-deep);
+  color: var(--on-dark);
+}
 
+/* Eyebrow — letterspaced sans, not monospace. The mono was part of what read
+   as technical and cold; small caps in the body face reads warmer. */
 .eyebrow {
-  font-family: var(--font-mono);
   font-size: var(--step--1);
-  letter-spacing: 0.14em;
+  font-weight: 600;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
-.eyebrow--light { color: var(--accent-bright); }
+.section--dark .eyebrow { color: var(--accent-lift); }
 
-.section__title {
-  font-size: var(--step-3);
-  line-height: 1.04;
-  letter-spacing: -0.028em;
-  font-weight: 640;
-  text-wrap: balance;
-}
+.section__title { font-size: var(--step-3); }
+.section__head { margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4rem); }
 
-.section__head { margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem); }
-
-.section__head--split {
-  display: grid;
-  gap: var(--gap);
-  align-items: end;
-}
+.section__head--split { display: grid; gap: var(--gap); align-items: end; }
 @media (min-width: 860px) {
-  .section__head--split {
-    grid-template-columns: 1.2fr 0.8fr;
-  }
+  .section__head--split { grid-template-columns: 1.15fr 0.85fr; }
 }
 
 .section__lede {
   font-size: var(--step-1);
-  line-height: 1.45;
-  color: var(--text-on-paper-soft);
-  max-width: 38ch;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 40ch;
   text-wrap: pretty;
 }
-.section--ink .section__lede { color: var(--text-on-ink-soft); }
+.section--dark .section__lede { color: var(--on-dark-soft); }
+
+/* Accented phrase inside a headline. Colour rather than italic — the webfont
+   ships upright only, so a synthesised italic would look slanted and cheap. */
+.hl { color: var(--accent); }
+.section--dark .hl { color: var(--accent-lift); }
 
 
 /* ---------------------------------------------------------------------------
-   5. BUTTONS
+   6. BUTTONS — pill-shaped. Rounded reads friendly; square reads severe.
    ------------------------------------------------------------------------ */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.95rem 1.75rem;
+  padding: 0.9rem 1.75rem;
   font-size: var(--step-0);
   font-weight: 600;
-  letter-spacing: -0.01em;
   text-decoration: none;
-  border: 1px solid transparent;
-  border-radius: 2px;
-  transition: background-color 0.25s var(--ease),
-              color 0.25s var(--ease),
-              border-color 0.25s var(--ease),
-              transform 0.25s var(--ease);
+  border: 1.5px solid transparent;
+  border-radius: var(--r-pill);
+  transition: background-color 0.22s var(--ease), color 0.22s var(--ease),
+              border-color 0.22s var(--ease), transform 0.22s var(--ease),
+              box-shadow 0.22s var(--ease);
 }
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0); }
@@ -250,48 +260,46 @@ button {
 .btn--accent {
   background: var(--accent);
   color: #fff;
+  box-shadow: var(--shadow-sm);
 }
-.btn--accent:hover { background: var(--accent-deep); }
-
-.btn--ghost {
-  border-color: rgba(242, 241, 238, 0.35);
-  color: var(--text-on-ink);
-}
-.btn--ghost:hover {
-  border-color: var(--accent-bright);
-  color: var(--accent-bright);
-}
+.btn--accent:hover { background: var(--accent-deep); box-shadow: var(--shadow-md); }
 
 .btn--outline {
-  border-color: var(--paper-line);
-  color: var(--text-on-paper);
-  background: transparent;
+  border-color: var(--line);
+  background: var(--card);
+  color: var(--ink);
 }
-.btn--outline:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+.btn--outline:hover { border-color: var(--accent); color: var(--accent); }
+
+.btn--light {
+  background: var(--on-dark);
+  color: var(--ink-deep);
 }
+.btn--light:hover { background: #fff; }
+
+.btn--ghost-dark {
+  border-color: rgba(247, 243, 236, 0.30);
+  color: var(--on-dark);
+}
+.btn--ghost-dark:hover { border-color: var(--accent-lift); color: var(--accent-lift); }
 
 
 /* ---------------------------------------------------------------------------
-   6. HEADER + NAV
+   7. HEADER
    ------------------------------------------------------------------------ */
 .site-header {
-  position: fixed;
-  inset: 0 0 auto 0;
+  position: sticky;
+  top: 0;
   z-index: 100;
-  transition: background-color 0.35s var(--ease),
-              border-color 0.35s var(--ease),
-              backdrop-filter 0.35s var(--ease);
-  border-bottom: 1px solid transparent;
-}
-
-/* Solid state, applied by main.js once the hero is scrolled past. */
-.site-header.is-stuck {
-  background: rgba(16, 18, 17, 0.88);
+  background: rgba(250, 247, 242, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom-color: var(--ink-line);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.site-header.is-stuck {
+  border-bottom-color: var(--line);
+  box-shadow: var(--shadow-sm);
 }
 
 .site-header__inner {
@@ -300,764 +308,594 @@ button {
   justify-content: space-between;
   gap: 1rem;
   min-height: 74px;
-  color: var(--text-on-ink);
 }
 
 .wordmark {
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.6rem;
   text-decoration: none;
-  color: inherit;
 }
-.wordmark__mark {
-  width: 26px; height: 26px;
-  color: var(--accent-bright);
-  flex: none;
-}
-.wordmark__text {
-  display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  line-height: 1;
-}
+.wordmark__mark { width: 26px; height: 26px; color: var(--accent); flex: none; }
+.wordmark__text { display: flex; align-items: baseline; gap: 0.35rem; line-height: 1; }
 .wordmark__name {
-  font-size: 1.06rem;
-  font-weight: 660;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: 1.22rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 .wordmark__suffix {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-on-ink-soft);
+  color: var(--ink-soft);
 }
 
 .nav__list {
   display: flex;
   align-items: center;
-  gap: clamp(1rem, 0.4rem + 1.4vw, 2rem);
+  gap: clamp(1rem, 0.4rem + 1.3vw, 1.9rem);
 }
 .nav__list a {
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 500;
-  color: var(--text-on-ink);
-  opacity: 0.82;
-  transition: opacity 0.2s var(--ease), color 0.2s var(--ease);
+  color: var(--ink-soft);
+  transition: color 0.2s var(--ease);
 }
-.nav__list a:hover { opacity: 1; color: var(--accent-bright); }
+.nav__list a:hover { color: var(--accent); }
 
 .nav__cta {
-  padding: 0.6rem 1.15rem;
-  border: 1px solid rgba(242, 241, 238, 0.32);
-  border-radius: 2px;
-  opacity: 1 !important;
+  padding: 0.6rem 1.25rem;
+  background: var(--accent);
+  color: #fff !important;
+  border-radius: var(--r-pill);
+  font-weight: 600;
 }
-.nav__cta:hover { border-color: var(--accent-bright); }
+.nav__cta:hover { background: var(--accent-deep); }
 
-/* Mobile toggle — hidden until the breakpoint at the bottom of this file. */
 .nav-toggle {
   display: none;
   width: 44px; height: 44px;
-  align-items: center;
-  justify-content: center;
+  align-items: center; justify-content: center;
   margin-right: -10px;
+  color: var(--ink);
 }
-.nav-toggle__bars {
-  display: block;
-  width: 22px; height: 12px;
-  position: relative;
-}
+.nav-toggle__bars { display: block; width: 22px; height: 12px; position: relative; }
 .nav-toggle__bars i {
-  position: absolute;
-  left: 0;
-  width: 100%; height: 1.5px;
+  position: absolute; left: 0;
+  width: 100%; height: 2px;
   background: currentColor;
-  transition: transform 0.3s var(--ease), opacity 0.2s var(--ease);
+  border-radius: 2px;
+  transition: transform 0.3s var(--ease);
 }
 .nav-toggle__bars i:nth-child(1) { top: 0; }
 .nav-toggle__bars i:nth-child(2) { bottom: 0; }
-
-.nav-toggle[aria-expanded="true"] .nav-toggle__bars i:nth-child(1) {
-  transform: translateY(5px) rotate(45deg);
-}
-.nav-toggle[aria-expanded="true"] .nav-toggle__bars i:nth-child(2) {
-  transform: translateY(-5px) rotate(-45deg);
-}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars i:nth-child(1) { transform: translateY(5px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bars i:nth-child(2) { transform: translateY(-5px) rotate(-45deg); }
 
 
 /* ---------------------------------------------------------------------------
-   7. HERO
+   8. HERO — split. Text on ivory, photograph in a soft rounded frame.
+   No more white text fighting a dark full-bleed photo.
    ------------------------------------------------------------------------ */
 .hero {
   position: relative;
-  isolation: isolate;
-  display: flex;
-  align-items: flex-end;
-  min-height: 100svh;
-  padding-block: 8rem clamp(4rem, 2rem + 6vw, 7rem);
-  background: var(--ink);
-  color: var(--text-on-ink);
+  padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem) var(--section-y);
   overflow: hidden;
 }
 
-.hero__media {
+/* Soft warm wash behind the hero so the ivory isn't flat. */
+.hero::before {
+  content: "";
   position: absolute;
-  inset: 0;
-  z-index: -2;
-}
-.hero__img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 55%;
-  /* Slight overscale gives the parallax translate room to move without
-     exposing an edge. See main.js. */
-  transform: scale(1.08);
-  will-change: transform;
+  top: -25%; right: -10%;
+  width: 65%; aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(217, 160, 60, 0.13) 0%, rgba(217, 160, 60, 0) 68%);
+  pointer-events: none;
+  z-index: -1;
 }
 
-/* Scrim. Two layered gradients rather than one, because the hero photograph is
-   busy and bright exactly where the copy sits:
-     - vertical, weighting the bottom where the headline and buttons are
-     - horizontal, anchoring the left column the text is set against
-   Measured against the current photo, the lightest pixel behind body copy
-   sits at ~4.9:1 and behind the headline at ~11:1. If the photo is ever
-   swapped for a lighter one, re-check those two before shipping. */
-.hero__scrim {
-  position: absolute;
-  inset: 0;
-
-  /* Must be POSITIVE, not negative.
-     The scrim is a child of .hero__media, and .hero__img carries a transform,
-     which makes the image its own stacking context at effective z-index 0.
-     A negative z-index here paints the scrim *behind* the photo, so it has no
-     effect at all. z-index 1 sits it above the image; .hero__media is itself
-     at -2, so the whole group still stays behind the hero copy. */
-  z-index: 1;
-
-  background:
-    linear-gradient(to right,
-      rgba(16, 18, 17, 0.82) 0%,
-      rgba(16, 18, 17, 0.58) 35%,
-      rgba(16, 18, 17, 0.12) 72%,
-      rgba(16, 18, 17, 0.00) 100%),
-    linear-gradient(to top,
-      rgba(16, 18, 17, 0.50) 0%,
-      rgba(16, 18, 17, 0.34) 30%,
-      rgba(16, 18, 17, 0.06) 62%,
-      rgba(16, 18, 17, 0.46) 100%);
+.hero__grid {
+  display: grid;
+  gap: clamp(2.5rem, 1.5rem + 4vw, 4.5rem);
+  align-items: center;
 }
-
-.hero__body { position: relative; }
+@media (min-width: 900px) {
+  .hero__grid { grid-template-columns: 1.05fr 0.95fr; }
+}
 
 .hero__title {
   font-size: var(--step-4);
-  line-height: 0.98;
-  letter-spacing: -0.04em;
-  font-weight: 660;
-  max-width: 16ch;
-  margin-bottom: 1.75rem;
-  text-wrap: balance;
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+  margin-bottom: 1.5rem;
+  max-width: 15ch;
 }
-
 .hero__sub {
   font-size: var(--step-1);
-  line-height: 1.45;
-  color: var(--text-on-ink-soft);
-  /* Kept narrow so the copy stays inside the darker left band of the scrim
-     rather than running out over the bright sparks on the right. */
-  max-width: 40ch;
-  margin-bottom: 2.25rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 44ch;
+  margin-bottom: 2rem;
   text-wrap: pretty;
 }
-
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.85rem;
-  margin-bottom: 1.5rem;
+  gap: 0.8rem;
+  margin-bottom: 1.4rem;
 }
-
 .hero__note {
-  font-family: var(--font-mono);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
   font-size: var(--step--1);
-  letter-spacing: 0.01em;
-  color: var(--text-on-ink-soft);
+  color: var(--ink-soft);
   max-width: 42ch;
 }
+.hero__note svg { width: 18px; height: 18px; color: var(--accent); flex: none; margin-top: 0.15em; }
 
-.hero__scroll {
-  position: absolute;
-  left: 50%;
-  bottom: 1.75rem;
-  transform: translateX(-50%);
-  width: 30px; height: 46px;
-  display: none;
+/* Photo frame */
+.hero__media {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  rotate: 1.2deg;             /* a touch off-axis reads handmade, not rigid */
 }
-.hero__scroll span {
-  position: absolute;
-  left: 50%; top: 0;
-  width: 1px; height: 100%;
-  background: linear-gradient(to bottom,
-    rgba(242, 241, 238, 0) 0%,
-    rgba(242, 241, 238, 0.55) 55%,
-    rgba(242, 241, 238, 0) 100%);
+.hero__media img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
 }
-@media (min-width: 900px) {
-  .hero__scroll { display: block; }
+@media (max-width: 899px) {
+  .hero__media { rotate: 0deg; }
+  .hero__media img { aspect-ratio: 3 / 2; }
+}
+
+/* On a narrow screen the two CTAs wrap to their own lines anyway, so make
+   them match width instead of sitting ragged at different lengths. */
+@media (max-width: 560px) {
+  .hero__actions { flex-direction: column; align-items: stretch; }
+  .hero__actions .btn { width: 100%; }
+  .contact__actions { flex-direction: column; align-items: stretch; }
+  .contact__actions .btn { width: 100%; }
 }
 
 
 /* ---------------------------------------------------------------------------
-   8. SERVICES
+   9. SERVICES — white cards on ivory
    ------------------------------------------------------------------------ */
-.services {
-  display: grid;
-  gap: clamp(2.5rem, 1rem + 4vw, 3.5rem);
-  border-top: 1px solid var(--paper-line);
-  padding-top: clamp(2.5rem, 1rem + 4vw, 3.5rem);
-}
-@media (min-width: 800px) {
-  .services { grid-template-columns: repeat(3, 1fr); }
-}
+.services { display: grid; gap: 1.25rem; }
+@media (min-width: 820px) { .services { grid-template-columns: repeat(3, 1fr); } }
 
-.service__num {
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  letter-spacing: 0.12em;
+.service {
+  padding: clamp(1.75rem, 1.2rem + 1.6vw, 2.4rem);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.service:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+.service__icon {
+  display: grid;
+  place-items: center;
+  width: 46px; height: 46px;
+  margin-bottom: 1.25rem;
+  background: var(--accent-tint);
   color: var(--accent);
-  margin-bottom: 1rem;
+  border-radius: var(--r-pill);
 }
-.service__title {
-  font-size: var(--step-2);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  font-weight: 640;
-  margin-bottom: 0.85rem;
-}
-.service__copy {
-  color: var(--text-on-paper-soft);
-  max-width: 40ch;
-  text-wrap: pretty;
-}
+.service__icon svg { width: 22px; height: 22px; }
+
+.service__title { font-size: var(--step-2); margin-bottom: 0.7rem; }
+.service__copy { color: var(--ink-soft); text-wrap: pretty; }
 
 
 /* ---------------------------------------------------------------------------
-   9. WORK
+   10. WORK
    ------------------------------------------------------------------------ */
-.work {
-  display: grid;
-  gap: clamp(2.5rem, 1rem + 4vw, 4rem);
-}
-@media (min-width: 760px) {
+.work { display: grid; gap: clamp(2rem, 1rem + 3vw, 3rem); }
+@media (min-width: 780px) {
   .work { grid-template-columns: repeat(2, 1fr); }
-  /* First item spans full width — a curated grid with a clear lead item,
-     rather than three identical cards in a row. */
   .work__item:first-child { grid-column: 1 / -1; }
 }
 
-.work__link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-}
+.work__link { display: block; text-decoration: none; }
 
 .work__figure {
   position: relative;
   overflow: hidden;
-  background: var(--ink-soft);
-  border: 1px solid var(--ink-line);
-  margin-bottom: 1.5rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.4rem;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.work__link:hover .work__figure,
+.work__link:focus-visible .work__figure {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
 }
 .work__figure img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  transition: transform 0.7s var(--ease), filter 0.5s var(--ease);
-}
-/* -- Framed screenshot --------------------------------------------------
-   The lead card shows a real client site, so it sits in browser chrome: it
-   reads as "a website we built" rather than a flat image, and it lets the
-   screenshot show at its true proportions instead of being cropped to fit
-   a card. Only used where the image genuinely IS a screenshot — the other
-   two projects are illustrative photographs and would be misrepresented by
-   a browser frame. */
-.work__figure--framed {
-  background: var(--ink-soft);
-  border-radius: 6px;
-}
-.work__figure--framed img {
-  /* Natural aspect: no crop, nothing cut off the sides. */
-  aspect-ratio: auto;
-  height: auto;
 }
 
+/* Light browser chrome, to match the warm ground. */
 .chrome {
   display: flex;
   align-items: center;
-  gap: 0.85rem;
-  padding: 0.7rem 1rem;
-  background: #161A18;
-  border-bottom: 1px solid var(--ink-line);
+  gap: 0.8rem;
+  padding: 0.65rem 1rem;
+  background: var(--paper-warm);
+  border-bottom: 1px solid var(--line);
 }
-.chrome__dots { display: flex; gap: 0.4rem; }
-.chrome__dots i {
-  width: 9px; height: 9px;
-  border-radius: 50%;
-  background: #363C39;
-}
+.chrome__dots { display: flex; gap: 0.38rem; }
+.chrome__dots i { width: 9px; height: 9px; border-radius: 50%; background: #D3C9B9; }
 .chrome__url {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.06em;
-  color: var(--text-on-ink-soft);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
 }
 
-/* Hover/focus state — the one interaction detail on the work grid. */
-.work__link:hover .work__figure img,
-.work__link:focus-visible .work__figure img {
-  transform: scale(1.035);
-}
-.work__link:hover .work__title,
-.work__link:focus-visible .work__title { color: var(--accent-bright); }
+/* The lead card is a real screenshot shown at true proportions, not cropped. */
+.work__figure--framed img { aspect-ratio: auto; }
 
 .work__title {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
+  gap: 0.45rem;
   font-size: var(--step-2);
-  line-height: 1.12;
-  letter-spacing: -0.03em;
-  font-weight: 640;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
   transition: color 0.25s var(--ease);
 }
-.work__ext {
-  font-size: 0.7em;
-  color: var(--accent-bright);
-  transition: transform 0.25s var(--ease);
-}
-.work__link:hover .work__ext { transform: translate(2px, -2px); }
+.work__link:hover .work__title { color: var(--accent); }
+.work__ext { font-size: 0.62em; color: var(--accent); }
 
 .work__desc {
-  color: var(--text-on-ink-soft);
-  max-width: 52ch;
-  margin-bottom: 1rem;
+  color: var(--ink-soft);
+  max-width: 54ch;
+  margin-bottom: 0.9rem;
   text-wrap: pretty;
 }
-.work__url {
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent-bright);
+.work__tag {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  background: var(--accent-tint);
+  color: var(--accent);
+  border-radius: var(--r-pill);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
 }
-.work__link--static .work__url { color: var(--text-on-ink-soft); }
 
 
 /* ---------------------------------------------------------------------------
-   10. PRICING
+   11. PRICING
    ------------------------------------------------------------------------ */
-.tiers {
-  display: grid;
-  gap: 1.25rem;
-  align-items: start;
-}
-@media (min-width: 880px) {
-  .tiers { grid-template-columns: repeat(3, 1fr); }
-}
+.tiers { display: grid; gap: 1.25rem; align-items: start; }
+@media (min-width: 900px) { .tiers { grid-template-columns: repeat(3, 1fr); } }
 
 .tier {
   position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: clamp(1.75rem, 1rem + 2vw, 2.5rem);
-  background: transparent;
-  border: 1px solid var(--paper-line);
-  border-radius: 3px;
+  padding: clamp(1.75rem, 1.2rem + 1.6vw, 2.4rem);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
 }
 
+/* The featured tier stays light — a black card in the middle of a warm page
+   was a big part of what read cold. An accent border and a soft tint mark it
+   instead. */
 .tier--featured {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--text-on-ink);
+  border: 2px solid var(--accent);
+  background: linear-gradient(180deg, var(--accent-tint) 0%, var(--card) 42%);
+  box-shadow: var(--shadow-md);
 }
-@media (min-width: 880px) {
-  /* The featured tier lifts slightly out of the row — enough to read as
-     "this one", not enough to break the grid rhythm. */
-  .tier--featured { margin-block: -1.25rem; }
+@media (min-width: 900px) {
+  .tier--featured { margin-block: -1.5rem; }
 }
 
 .tier__flag {
   position: absolute;
-  top: 0; left: clamp(1.75rem, 1rem + 2vw, 2.5rem);
-  transform: translateY(-50%);
-  padding: 0.3rem 0.75rem;
-  background: var(--accent-bright);
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  top: 0; left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0.35rem 1rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--r-pill);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
-  border-radius: 2px;
+  white-space: nowrap;
 }
 
 .tier__head {
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--paper-line);
-  margin-bottom: 1.5rem;
+  padding-bottom: 1.4rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 1.4rem;
 }
-.tier--featured .tier__head { border-bottom-color: var(--ink-line); }
-
 .tier__name {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--step--1);
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-weight: 700;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.7rem;
 }
-.tier--featured .tier__name { color: var(--accent-bright); }
-
+.tier__price { margin-bottom: 0.7rem; }
 .tier__amount {
+  font-family: var(--font-display);
   font-size: var(--step-3);
+  font-weight: 600;
+  letter-spacing: -0.02em;
   line-height: 1;
-  letter-spacing: -0.04em;
-  font-weight: 660;
 }
-.tier__price { margin-bottom: 0.85rem; }
-
-.tier__for {
-  font-size: var(--step--1);
-  line-height: 1.5;
-  color: var(--text-on-paper-soft);
-  max-width: 30ch;
-}
-.tier--featured .tier__for { color: var(--text-on-ink-soft); }
+.tier__for { font-size: var(--step--1); color: var(--ink-soft); max-width: 30ch; }
 
 .tier__list {
   display: grid;
   gap: 0.7rem;
-  margin-bottom: 2rem;
-  /* flex:1 pushes the button to the bottom of every card so the three CTAs
-     line up. align-content:start stops the grid rows themselves stretching to
-     fill that space — without it, a 4-item list spaces its rows further apart
-     than a 5-item one and the cards lose their shared rhythm. */
+  margin-bottom: 1.9rem;
+  /* flex:1 lines the three buttons up along the bottom; align-content:start
+     stops the rows themselves stretching to fill that slack, which would
+     give a 4-item card a different rhythm from a 5-item one. */
   flex: 1;
   align-content: start;
 }
 .tier__list li {
   position: relative;
-  padding-left: 1.5rem;
-  font-size: 0.97rem;
+  padding-left: 1.75rem;
+  font-size: 0.99rem;
   line-height: 1.5;
-  color: var(--text-on-paper-soft);
+  color: var(--ink-soft);
 }
-.tier--featured .tier__list li { color: var(--text-on-ink); }
-
-/* Checkmark drawn in CSS — no icon font, no SVG request. */
 .tier__list li::before {
   content: "";
   position: absolute;
-  left: 0; top: 0.42em;
-  width: 0.5rem; height: 0.28rem;
-  border-left: 1.5px solid var(--accent);
-  border-bottom: 1.5px solid var(--accent);
+  left: 0; top: 0.16em;
+  width: 1.15rem; height: 1.15rem;
+  background: var(--accent-tint);
+  border-radius: 50%;
+}
+.tier__list li::after {
+  content: "";
+  position: absolute;
+  left: 0.36rem; top: 0.48em;
+  width: 0.44rem; height: 0.24rem;
+  border-left: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
   transform: rotate(-45deg);
 }
-.tier--featured .tier__list li::before {
-  border-color: var(--accent-bright);
-}
-
 .tier__btn { width: 100%; }
 
-/* -- Retainer band -- */
+/* -- Care plan band -- */
 .retainer {
   display: grid;
   gap: clamp(1.25rem, 0.5rem + 2vw, 2.5rem);
   align-items: center;
-  margin-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
-  padding: clamp(1.75rem, 1rem + 2.5vw, 2.75rem);
-  background: var(--paper-warm);
-  border-left: 3px solid var(--accent);
-  border-radius: 2px;
+  margin-top: clamp(2.5rem, 1.5rem + 3vw, 3.75rem);
+  padding: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--amber);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
 }
-@media (min-width: 720px) {
-  .retainer { grid-template-columns: auto 1fr; }
-}
+@media (min-width: 720px) { .retainer { grid-template-columns: auto 1fr; } }
 
-.retainer__price {
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  letter-spacing: 0.08em;
-  color: var(--text-on-paper-soft);
-  white-space: nowrap;
-}
+.retainer__price { color: var(--ink-soft); font-size: var(--step--1); white-space: nowrap; }
 .retainer__price span {
   display: block;
+  font-family: var(--font-display);
   font-size: var(--step-3);
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.04em;
-  font-weight: 660;
-  color: var(--accent);
-  font-family: var(--font-sans);
+  letter-spacing: -0.02em;
+  color: var(--amber-ink);
 }
-
-.retainer__title {
-  font-size: var(--step-1);
-  line-height: 1.2;
-  letter-spacing: -0.025em;
-  font-weight: 640;
-  margin-bottom: 0.5rem;
-}
-.retainer__body p {
-  color: var(--text-on-paper-soft);
-  max-width: 62ch;
-  text-wrap: pretty;
-}
+.retainer__title { font-size: var(--step-1); margin-bottom: 0.45rem; }
+.retainer__body p { color: var(--ink-soft); max-width: 62ch; text-wrap: pretty; }
 
 
 /* ---------------------------------------------------------------------------
-   11. TRUST
+   12. TRUST
    ------------------------------------------------------------------------ */
-.trust {
-  display: grid;
-  gap: clamp(2rem, 1rem + 3vw, 3rem);
-}
-@media (min-width: 800px) {
-  .trust { grid-template-columns: repeat(3, 1fr); }
-}
+.trust { display: grid; gap: clamp(1.25rem, 0.75rem + 2vw, 2rem); }
+@media (min-width: 820px) { .trust { grid-template-columns: repeat(3, 1fr); } }
 
 .trust__item {
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--ink-line);
+  padding: clamp(1.5rem, 1.1rem + 1.3vw, 2rem);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
 }
-.trust__title {
-  font-size: var(--step-1);
-  line-height: 1.2;
-  letter-spacing: -0.025em;
-  font-weight: 640;
-  margin-bottom: 0.75rem;
+.trust__icon {
+  display: grid;
+  place-items: center;
+  width: 42px; height: 42px;
+  margin-bottom: 1.1rem;
+  background: var(--accent-tint);
+  color: var(--accent);
+  border-radius: var(--r-pill);
 }
-.trust__item p {
-  color: var(--text-on-ink-soft);
-  max-width: 40ch;
-  text-wrap: pretty;
-}
+.trust__icon svg { width: 20px; height: 20px; }
+.trust__title { font-size: var(--step-1); margin-bottom: 0.6rem; }
+.trust__item p { color: var(--ink-soft); text-wrap: pretty; }
 
 
 /* ---------------------------------------------------------------------------
-   12. ABOUT
+   13. ABOUT — the portrait carries this section
    ------------------------------------------------------------------------ */
-.about {
-  display: grid;
-  gap: clamp(2.5rem, 1.5rem + 4vw, 5rem);
-  align-items: center;
-}
-@media (min-width: 860px) {
-  .about { grid-template-columns: 0.85fr 1.15fr; }
-}
+.about { display: grid; gap: clamp(2.5rem, 1.5rem + 4vw, 4.5rem); align-items: center; }
+@media (min-width: 880px) { .about { grid-template-columns: 0.8fr 1.2fr; } }
 
+.about__media {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  rotate: -1.2deg;
+}
 .about__media img {
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
-  background: var(--ink-soft);
+  /* Top-weighted: on a standing portrait this keeps the face in frame
+     when the box is shorter than the photograph. */
+  object-position: center 22%;
 }
-
-.about__body .section__title { margin-bottom: 2rem; }
 
 .about__quote {
-  margin-bottom: 2rem;
-  padding-left: 1.5rem;
-  border-left: 2px solid var(--accent);
+  margin: 1.5rem 0 1.75rem;
+  padding: 1.25rem 0 1.25rem 1.5rem;
+  border-left: 3px solid var(--accent);
 }
 .about__quote p {
+  font-family: var(--font-display);
   font-size: var(--step-2);
-  line-height: 1.25;
-  letter-spacing: -0.03em;
   font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.015em;
   text-wrap: balance;
 }
+.about__body > p:not(.eyebrow) { color: var(--ink-soft); max-width: 58ch; text-wrap: pretty; }
+.about__body > p + p { margin-top: 1rem; }
 
-.about__body > p:not(.eyebrow) {
-  color: var(--text-on-paper-soft);
-  max-width: 56ch;
-  text-wrap: pretty;
+.about__sign {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
 }
-.about__body > p + p { margin-top: 1.1rem; }
+.about__sign strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 600;
+}
+.about__sign span { font-size: var(--step--1); color: var(--ink-soft); }
 
 
 /* ---------------------------------------------------------------------------
-   13. CONTACT
+   14. CONTACT — the one dark section
    ------------------------------------------------------------------------ */
-.section--contact { padding-bottom: calc(var(--section-y) * 0.8); }
+.contact__head { margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 3.5rem); max-width: 46ch; }
+.contact__title { font-size: var(--step-4); line-height: 1.03; margin-bottom: 1.25rem; }
+.contact__lede { font-size: var(--step-1); line-height: 1.5; color: var(--on-dark-soft); text-wrap: pretty; }
 
-.contact__head { margin-bottom: clamp(2.5rem, 1.5rem + 3vw, 4rem); }
+.contact__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 3rem; }
 
-.contact__title {
-  font-size: var(--step-4);
-  line-height: 1.0;
-  letter-spacing: -0.04em;
-  font-weight: 660;
-  max-width: 14ch;
-  margin-bottom: 1.5rem;
-  text-wrap: balance;
-}
-.contact__lede {
-  font-size: var(--step-1);
-  line-height: 1.45;
-  color: var(--text-on-ink-soft);
-  max-width: 52ch;
-  text-wrap: pretty;
-}
-
-.contact__details {
-  display: grid;
-  gap: 0;
-  border-top: 1px solid var(--ink-line);
-}
-@media (min-width: 760px) {
-  .contact__details { grid-template-columns: repeat(3, 1fr); }
-}
+.contact__details { display: grid; gap: 1.25rem; }
+@media (min-width: 760px) { .contact__details { grid-template-columns: repeat(3, 1fr); } }
 
 .contact__row {
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--ink-line);
+  padding: 1.4rem 1.5rem;
+  background: rgba(247, 243, 236, 0.05);
+  border: 1px solid var(--line-dark);
+  border-radius: var(--r-md);
 }
-@media (min-width: 760px) {
-  .contact__row {
-    border-bottom: 0;
-    padding-right: 1.5rem;
-  }
-}
-
 .contact__row dt {
-  font-family: var(--font-mono);
   font-size: var(--step--1);
-  letter-spacing: 0.14em;
+  font-weight: 600;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
-  color: var(--text-on-ink-soft);
-  margin-bottom: 0.6rem;
+  color: var(--on-dark-soft);
+  margin-bottom: 0.5rem;
 }
-
 .contact__value {
   font-size: var(--step-1);
-  font-weight: 560;
-  letter-spacing: -0.02em;
+  font-weight: 600;
   text-decoration: none;
-  color: var(--accent-bright);
+  color: var(--accent-lift);
   transition: color 0.2s var(--ease);
 }
 a.contact__value:hover { color: #fff; }
 
-/* Placeholder styling — deliberately reads as "not filled in yet" so it can
-   never be mistaken for a real, working contact detail. Remove this class
-   from the markup once the real phone number and inbox exist. */
+/* Obvious placeholder — must never be mistaken for a working phone number. */
 .contact__value.is-placeholder {
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 400;
-  letter-spacing: 0;
-  color: var(--text-on-ink-soft);
-  border-bottom: 1px dashed var(--ink-line);
+  color: var(--on-dark-soft);
+  border-bottom: 1px dashed var(--line-dark);
   cursor: not-allowed;
 }
 
 
 /* ---------------------------------------------------------------------------
-   14. FOOTER
+   15. FOOTER
    ------------------------------------------------------------------------ */
 .site-footer {
-  background: var(--ink);
-  color: var(--text-on-ink-soft);
-  border-top: 1px solid var(--ink-line);
-  padding-block: 2.5rem;
+  background: var(--ink-deep);
+  color: var(--on-dark-soft);
+  border-top: 1px solid var(--line-dark);
+  padding-block: 2.25rem;
 }
 .site-footer__inner {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem 2rem;
+  gap: 0.4rem 2rem;
   align-items: baseline;
   justify-content: space-between;
   font-size: var(--step--1);
 }
 .site-footer__name {
-  color: var(--text-on-ink);
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--on-dark);
 }
-.site-footer__copy { font-family: var(--font-mono); }
 
 
 /* ---------------------------------------------------------------------------
-   15. MOTION
-   The single deliberate motion moment: the hero headline wipes up on load,
-   and content settles in as it enters the viewport. Everything here is
-   opt-in via .js and fully removed under prefers-reduced-motion.
+   16. MOTION — content settles in; nothing showy.
    ------------------------------------------------------------------------ */
-
-/* -- Hero headline mask reveal -- */
-.reveal-line {
-  display: block;
-  overflow: hidden;
-}
-.reveal-line > span { display: block; }
-
-.js .reveal-line > span {
-  transform: translateY(105%);
-  transition: transform 1.05s var(--ease);
-}
-.js .reveal-line:nth-child(2) > span { transition-delay: 0.11s; }
-
-.js .hero.is-ready .reveal-line > span { transform: translateY(0); }
-
-/* Hero supporting content fades up just behind the headline. */
-.js .hero__sub,
-.js .hero__actions,
-.js .hero__note,
-.js .hero .eyebrow {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
-}
-.js .hero .eyebrow    { transition-delay: 0.05s; }
-.js .hero__sub        { transition-delay: 0.30s; }
-.js .hero__actions    { transition-delay: 0.40s; }
-.js .hero__note       { transition-delay: 0.48s; }
-
-.js .hero.is-ready :is(.hero__sub, .hero__actions, .hero__note, .eyebrow) {
-  opacity: 1;
-  transform: none;
-}
-
-/* -- Scroll reveal -- */
 .js .reveal {
   opacity: 0;
-  transform: translateY(22px);
+  transform: translateY(20px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.js .reveal.is-in { opacity: 1; transform: none; }
+.js .reveal[data-delay="1"] { transition-delay: 0.08s; }
+.js .reveal[data-delay="2"] { transition-delay: 0.16s; }
+.js .reveal[data-delay="3"] { transition-delay: 0.24s; }
+
+/* Hero entrance */
+.js .hero__body > * {
+  opacity: 0;
+  transform: translateY(16px);
   transition: opacity 0.75s var(--ease), transform 0.75s var(--ease);
 }
-.js .reveal.is-in {
-  opacity: 1;
-  transform: none;
+.js .hero__body > *:nth-child(1) { transition-delay: 0.05s; }
+.js .hero__body > *:nth-child(2) { transition-delay: 0.13s; }
+.js .hero__body > *:nth-child(3) { transition-delay: 0.21s; }
+.js .hero__body > *:nth-child(4) { transition-delay: 0.29s; }
+.js .hero__body > *:nth-child(5) { transition-delay: 0.37s; }
+.js .hero__media {
+  opacity: 0;
+  transform: translateY(24px) scale(0.98);
+  transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  transition-delay: 0.15s;
 }
-
-/* Stagger within a group so items in the same row arrive in sequence. */
-.js .reveal[data-delay="1"] { transition-delay: 0.09s; }
-.js .reveal[data-delay="2"] { transition-delay: 0.18s; }
-.js .reveal[data-delay="3"] { transition-delay: 0.27s; }
+.js .hero.is-ready .hero__body > *,
+.js .hero.is-ready .hero__media { opacity: 1; transform: none; }
 
 
 /* ---------------------------------------------------------------------------
-   16. REDUCED MOTION
-   Everything above is neutralised: no transforms, no transitions, no parallax
-   (main.js checks the same query). Content is shown in its final state.
+   17. REDUCED MOTION
    ------------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -1068,24 +906,20 @@ a.contact__value:hover { color: #fff; }
     scroll-behavior: auto !important;
   }
   .js .reveal,
-  .js .reveal-line > span,
-  .js .hero__sub,
-  .js .hero__actions,
-  .js .hero__note,
-  .js .hero .eyebrow {
+  .js .hero__body > *,
+  .js .hero__media {
     opacity: 1 !important;
     transform: none !important;
   }
-  .hero__img { transform: scale(1.02); }
-  .btn:hover { transform: none; }
+  .btn:hover, .service:hover, .work__link:hover .work__figure { transform: none; }
+  .hero__media, .about__media { rotate: 0deg; }
 }
 
 
 /* ---------------------------------------------------------------------------
-   17. MOBILE NAV — last, so it overrides the desktop nav rules above.
+   18. MOBILE NAV — last, so it overrides the desktop rules above.
    ------------------------------------------------------------------------ */
-@media (max-width: 800px) {
-
+@media (max-width: 820px) {
   .nav-toggle { display: inline-flex; }
 
   .nav {
@@ -1095,51 +929,21 @@ a.contact__value:hover { color: #fff; }
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--ink);
+    background: var(--paper);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s var(--ease), visibility 0.3s var(--ease);
   }
-  .nav.is-open {
-    opacity: 1;
-    visibility: visible;
-  }
+  .nav.is-open { opacity: 1; visibility: visible; }
 
-  .nav__list {
-    flex-direction: column;
-    gap: 1.75rem;
-    text-align: center;
-  }
-  .nav__list a { font-size: var(--step-2); font-weight: 600; opacity: 1; }
+  .nav__list { flex-direction: column; gap: 1.6rem; text-align: center; }
+  .nav__list a { font-family: var(--font-display); font-size: var(--step-2); color: var(--ink); }
   .nav__cta {
-    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
+    padding: 0.85rem 1.9rem;
     margin-top: 0.5rem;
-    padding: 0.85rem 1.75rem;
-    border-color: var(--accent-bright);
-    color: var(--accent-bright);
   }
 
-  /* The header sits above the open panel so the close button stays reachable. */
-  .site-header { z-index: 100; }
   body.nav-open { overflow: hidden; }
-  body.nav-open .site-header { background: transparent; border-bottom-color: transparent; }
-}
-
-/* Hero image parallax is desktop + fine-pointer only (see main.js). Mobile
-   keeps a static image: cheaper, and avoids jank against address-bar resize. */
-@media (max-width: 800px) {
-  .hero__img { transform: scale(1.04); }
-
-  /* The two-axis scrim is calibrated for a wide screen, where the copy sits in
-     a narrow left column. On a phone the text runs the full width, so the
-     horizontal band no longer covers it — drop to a single, stronger vertical
-     gradient instead. */
-  .hero__scrim {
-    background:
-      linear-gradient(to top,
-        rgba(16, 18, 17, 0.93) 0%,
-        rgba(16, 18, 17, 0.84) 38%,
-        rgba(16, 18, 17, 0.58) 72%,
-        rgba(16, 18, 17, 0.66) 100%);
-  }
 }
