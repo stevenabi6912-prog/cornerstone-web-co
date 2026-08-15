@@ -68,7 +68,14 @@
   --accent:      #2D6A4F;
   --accent-deep: #235340;
   --accent-tint: #EAF2ED;
-  --accent-lift: #7FD0A4;  /* on the dark section only */
+  --accent-lift: #7FD0A4;  /* on dark/green sections only */
+
+  /* Full-bleed green section — a darker shade of the brand accent, so it reads
+     as the same colour family rather than a second green. Deliberately deeper
+     than --accent: at accent strength a full-width block reads flat, and white
+     cards need real separation to lift off it. */
+  --green-deep:    #1F4A37;
+  --on-green-soft: #B3CCBF;
   --amber:       #D9A03C;  /* decorative fills / rules only */
   --amber-ink:   #8A5B14;  /* amber as readable text */
 
@@ -200,6 +207,27 @@ h1, h2, h3, .display {
   background: var(--ink-deep);
   color: var(--on-dark);
 }
+
+/* Green block, to break up the run of cream. White cards sit on top of it, so
+   card interiors keep the normal light-background colours — only the section's
+   own headings and lede need inverting. */
+.section--green {
+  background: var(--green-deep);
+  color: var(--on-dark);
+}
+.section--green .eyebrow { color: var(--accent-lift); }
+.section--green .section__lede { color: var(--on-green-soft); }
+/* The warm hairline border disappears against green; the shadow does the
+   lifting instead. */
+.section--green .service {
+  border-color: transparent;
+  box-shadow: var(--shadow-md);
+}
+
+/* Light cards declare their own text colour rather than inheriting it.
+   A section that flips `color` for its own headings (--green, --dark) would
+   otherwise leak ivory text into a white card and render it invisible. */
+.service, .tier, .trust__item, .retainer { color: var(--ink); }
 
 /* Eyebrow — letterspaced sans, not monospace. The mono was part of what read
    as technical and cold; small caps in the body face reads warmer. */
