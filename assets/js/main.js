@@ -145,4 +145,64 @@
     reveals.forEach(function (el) { revealObserver.observe(el); });
   }
 
+
+  /* --------------------------------------------------------------------
+     6. Contact form
+     Submits in the background so the visitor stays on the page. Without
+     JavaScript the form still does a normal POST and the provider shows its
+     own thank-you, so nothing here is load-bearing.
+     -------------------------------------------------------------------- */
+  var form = document.getElementById('contactForm');
+  var status = document.getElementById('formStatus');
+  var submit = document.getElementById('formSubmit');
+
+  if (form && status && submit) {
+    var PHONE = '(734) 719-0035';
+
+    var show = function (kind, msg) {
+      status.hidden = false;
+      status.className = 'form__status form__status--' + kind;
+      status.textContent = msg;
+    };
+
+    form.addEventListener('submit', function (e) {
+      var action = form.getAttribute('action');
+
+      // Endpoint not wired up yet — don't let the visitor think it sent.
+      if (!action || action === 'FORM_ENDPOINT') {
+        e.preventDefault();
+        show('err', 'This form isn’t connected yet — please call ' + PHONE +
+                    ' and I’ll get straight back to you.');
+        return;
+      }
+
+      // Bail out to a normal POST on very old browsers.
+      if (!window.fetch || !window.FormData) return;
+
+      e.preventDefault();
+      submit.disabled = true;
+      submit.textContent = 'Sending…';
+      status.hidden = true;
+
+      fetch(action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error('bad status ' + res.status);
+          form.reset();
+          show('ok', 'Got it — thank you. I’ll be in touch within one business day.');
+        })
+        .catch(function () {
+          show('err', 'Something went wrong sending that. Please call ' + PHONE +
+                      ' or try again in a moment.');
+        })
+        .then(function () {
+          submit.disabled = false;
+          submit.textContent = 'Send it over';
+        });
+    });
+  }
+
 })();

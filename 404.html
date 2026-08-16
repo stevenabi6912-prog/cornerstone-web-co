@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — Cornerstone Web Co.</title>
+<meta name="robots" content="noindex, follow">
+<meta name="theme-color" content="#FAF7F2">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<!-- Absolute paths: a 404 can be served from any URL depth, so relative
+     paths would break the stylesheet on anything below the root. -->
+<link rel="preload" href="/assets/fonts/fraunces-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/source-sans-3-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+  .oops { min-height: 78vh; display: grid; place-items: center; text-align: center; }
+  .oops__code {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 3rem + 8vw, 8rem);
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .oops p { color: var(--ink-soft); max-width: 46ch; margin-inline: auto; }
+  .oops__actions { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; margin-top: 2rem; }
+</style>
+</head>
+
+<body>
+
+<header class="site-header is-stuck">
+  <div class="shell site-header__inner">
+    <a class="wordmark" href="/" aria-label="Cornerstone Web Co., home">
+      <svg class="wordmark__mark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M2 22V7.5L12 2l10 5.5V22H2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+        <path d="M2 22V14h8v8" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="wordmark__text">
+        <span class="wordmark__name">Cornerstone</span>
+        <span class="wordmark__suffix">Web&nbsp;Co.</span>
+      </span>
+    </a>
+  </div>
+</header>
+
+<main class="oops">
+  <div class="shell">
+    <p class="oops__code">404</p>
+    <h1 class="section__title">That page isn't here.</h1>
+    <p style="margin-top:1rem">
+      Either the link was wrong or I moved something. Either way it's my fault, not yours.
+    </p>
+    <div class="oops__actions">
+      <a class="btn btn--accent" href="/">Back to the home page</a>
+      <a class="btn btn--outline" href="tel:+17347190035">(734) 719-0035</a>
+    </div>
+  </div>
+</main>
+
+</body>
+</html>

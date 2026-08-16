@@ -17,32 +17,55 @@ robots.txt, sitemap.xml
 
 ## Before this goes live
 
-Three things are placeholders. All are marked with `EDIT:` comments in `index.html`.
+Four things left. Each is a one-line change and each is marked with an `EDIT:` or
+a clearly-named placeholder in the source.
 
-**1. Phone number** — `index.html`, contact section
-
-```html
-<a class="contact__value is-placeholder" href="#contact">[PLACEHOLDER — add real number]</a>
-```
-
-Replace with the real number and drop the `is-placeholder` class:
+**1. Connect the contact form.** Sign up at [formspree.io](https://formspree.io)
+(free tier: 50 submissions/month), create a form, and paste the URL it gives you
+over `FORM_ENDPOINT` in `index.html`:
 
 ```html
-<a class="contact__value" href="tel:+15175550123">(517) 555-0123</a>
+<form class="form" id="contactForm" action="https://formspree.io/f/YOURID" method="POST">
 ```
 
-The `href` must be E.164 — `+1` then ten digits, no spaces, dashes, or parentheses.
+Until that's done the form deliberately refuses to submit and tells the visitor to
+call instead — it will never pretend a message was sent.
 
-**2. Email** — same block, same pattern, `href="mailto:you@yourdomain.com"`.
-Pending the domain inbox.
+**2. Set up the email inbox.** Once the domain is live, Cloudflare Email Routing
+(free) will forward `steven@thecornerstonewebco.com` to your Gmail in about five
+minutes. Then swap the placeholder in the contact section for the real `mailto:`
+and drop the `is-placeholder` class.
 
-**3. Domain** — `cornerstonewebco.com` is assumed in four places: the `canonical`
-link, the two `og:` URL tags, and `sitemap.xml`. Find and replace if the real
-domain differs.
+**3. Add the analytics beacon token.** Cloudflare dashboard → Analytics & Logs →
+Web Analytics → add the site. Paste the token over `BEACON_TOKEN` at the bottom of
+`index.html` and uncomment that script tag.
 
-Until the real phone and email are in, those two entries render greyed out with a
-dashed underline and go nowhere. That is deliberate — a placeholder that looks like
-a working phone number is worse than one that obviously isn't.
+The beacon token is public by design — it ships in the page source. **Never put a
+Cloudflare API key in this file.** An API key can change your DNS, and everything
+here is world-readable.
+
+**4. Point the domain at the site.** In Cloudflare DNS for `thecornerstonewebco.com`:
+
+| Type | Name | Value | Proxy |
+|---|---|---|---|
+| A | @ | 185.199.108.153 | DNS only |
+| A | @ | 185.199.109.153 | DNS only |
+| A | @ | 185.199.110.153 | DNS only |
+| A | @ | 185.199.111.153 | DNS only |
+| CNAME | www | stevenabi6912-prog.github.io | DNS only |
+
+Set those to **DNS only** (grey cloud), not proxied — GitHub Pages issues its own
+certificate and Cloudflare's proxy fights with it. Then add a file named `CNAME` at
+the repo root containing `thecornerstonewebco.com`, and enable the custom domain in
+the repo's Pages settings. Don't add the `CNAME` file before DNS resolves, or the
+current `github.io` preview link stops working.
+
+### Not yet true
+
+The site says "Cornerstone Web Co.", **not** "Cornerstone Web Co., LLC", because the
+LLC isn't registered yet. Don't add "LLC" anywhere until the Michigan Articles of
+Organization are filed and accepted — claiming it beforehand is a misrepresentation
+and gives none of the liability protection it implies.
 
 ---
 
