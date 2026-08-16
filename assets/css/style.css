@@ -994,14 +994,15 @@ a.contact__value:hover { color: #fff; }
   max-width: 42ch;
 }
 .hero__trust img {
-  width: 52px; height: 52px;
+  width: 76px; height: 76px;
   border-radius: var(--r-pill);
   object-fit: cover;
-  /* The source is a 3:4 torso crop, so pull focus up to the face in a circle. */
-  object-position: center 18%;
+  /* Source is now a dedicated square face crop, so no repositioning needed. */
+  object-position: center;
   flex: none;
+  box-shadow: 0 0 0 3px var(--paper), 0 0 0 4px var(--line);
 }
-.hero__trust p { font-size: var(--step--1); color: var(--ink-soft); }
+.hero__trust p { font-size: 0.97rem; line-height: 1.5; color: var(--ink-soft); }
 .hero__trust strong { color: var(--ink); font-weight: 600; }
 
 /* -- Mockup offer --------------------------------------------------------- */

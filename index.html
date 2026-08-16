@@ -152,9 +152,11 @@
         <!-- Trust line: put the face high on the page, not only in About. -->
         <div class="hero__trust">
           <picture>
-            <source type="image/webp" srcset="assets/img/steven-450.webp">
-            <img src="assets/img/steven.jpg" alt="Steven Wireman"
-               width="900" height="1200" loading="eager" decoding="async">
+            <!-- A dedicated square head-and-shoulders crop. Reusing the 3:4
+                 torso photo here made the face tiny inside the circle. -->
+            <source type="image/webp" srcset="assets/img/steven-face.webp">
+            <img src="assets/img/steven-face.jpg" alt="Steven Wireman"
+                 width="400" height="400" loading="eager" decoding="async">
           </picture>
           <p><strong>Hi — I'm Steven.</strong> I build every site myself. You won't be
              handed off to an account manager or a contractor overseas.</p>
